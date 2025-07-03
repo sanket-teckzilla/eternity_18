@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_delivery_order_test_certificate">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="report_custom_layout.external_layout_account_invoice_jar">
+                    <t t-foreach="o.production_ids" t-as="pi">
+                        <t t-foreach="pi.test_report_ids" t-as="li">
+                            <div class="page"
+                                 style="margin-left:10mm;margin-right:5mm;margin-top:5mm;font-weight:bolder;">
+                                <div class="oe_structure"/>
+                                <table class="table" width="100%;"
+                                       style="border-top:1px solid;border-bottom:1px solid;border-left:1px solid;border-right:1px solid;">
+                                    <thead>
+                                        <tr>
+                                            <td class="border-top-0" colspan="4" style="background: white;">
+                                                <div style="text-align:right;">
+                                                    <strong>Date :
+                                                        <span t-esc="li.date.strftime('%d/%m/%Y')"/>
+                                                    </strong>
+                                                </div>
+                                                <div style="text-align:center;">
+                                                    <b>TEST CERTIFICATE<br/>FOR<br/>ETERNITY HEAT SEALED MOTIVE POWER
+                                                        BATTERY
+                                                    </b>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr style="border-top:1px solid;">
+                                            <td class="border-top-0">
+                                                <b>1.</b>
+                                            </td>
+                                            <t t-if="pi.product_id.product_type == 'battery'">
+                                                <td class="border-top-0">
+                                                    <b>BATTERY NUMBER</b>
+                                                </td>
+                                            </t>
+                                            <t t-if="pi.product_id.product_type == 'cell'">
+                                                <td class="border-top-0">
+                                                    <b>CELL KIT NUMBER</b>
+                                                </td>
+                                            </t>
+                                            <td class="border-top-0">:</td>
+                                            <td class="border-top-0" style="background: white;">
+                                                <span t-esc="pi.product_id.name"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-top-0">
+                                                <b>2.</b>
+                                            </td>
+                                            <t t-if="pi.product_id.product_type == 'battery'">
+                                                <td class="border-top-0">
+                                                    <b>BATTERY CAPACITY @ C5</b>
+                                                </td>
+                                            </t>
+                                            <t t-if="pi.product_id.product_type == 'cell'">
+                                                <td class="border-top-0">
+                                                    <b>CELL KIT CAPACITY @ C5</b>
+                                                </td>
+                                            </t>
+                                            <td class="border-top-0">:</td>
+                                            <td class="border-top-0" style="background: white;">
+                                                <span t-esc="int(li.volts)"/>
+                                                V
+                                                <span t-esc="int(li.ah)"/>
+                                                AH
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-top-0">
+                                                <b>3.</b>
+                                            </td>
+                                            <td class="border-top-0">
+                                                <b>NUMBER OF CELL &amp; TYPE</b>
+                                            </td>
+                                            <td class="border-top-0">:</td>
+                                            <td class="border-top-0" style="background: white;">
+                                                <span t-esc="li.no_of_cell_type"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-top-0">
+                                                <b>4.</b>
+                                            </td>
+                                            <td class="border-top-0">
+                                                <b>ROUTINE TESTS &#160;&#160;&#160;&#160;&#160;&#160;: VISUAL CHECK</b>
+                                            </td>
+                                            <td class="border-top-0">:</td>
+                                            <td class="border-top-0" style="background: white;">OK</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-top-0"></td>
+                                            <td class="border-top-0">
+                                                <b> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                                    : POLARITY CHECK
+                                                </b>
+                                            </td>
+                                            <td class="border-top-0">:</td>
+                                            <td class="border-top-0" style="background: white;">OK</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-top-0"></td>
+                                            <td class="border-top-0">
+                                                <b>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                                    : HIGH VOLTAGE TEST/HV
+                                                </b>
+                                            </td>
+                                            <td class="border-top-0">:</td>
+                                            <td class="border-top-0" style="background: white;">Passes the Test</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-top-0">
+                                                <b>5.</b>
+                                            </td>
+                                            <td class="border-top-0">
+                                                <b>AIR PRESSURE TEST</b>
+                                            </td>
+                                            <td class="border-top-0">:</td>
+                                            <td class="border-top-0" style="background: white;">Passes the Test</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-top-0">
+                                                <b>6.</b>
+                                            </td>
+                                            <td class="border-top-0">
+                                                <b>CAPACITY TEST @ C5 hrs.
+                                                </b>
+                                            </td>
+                                            <td class="border-top-0">:</td>
+                                            <td class="border-top-0" style="background: white;">RESULT &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                                REMARK
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-top-0"></td>
+                                            <td class="border-top-0">
+                                                <b>Rate Obtained On Sample Cell 1 &amp; 2</b>
+                                            </td>
+                                            <td class="border-top-0">:</td>
+                                            <td class="border-top-0" style="background: white;">
+                                                <span t-esc="li.rate_on_sample_cell"/>
+                                                AH &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                                Passes
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-top-0">
+                                                <b>7.</b>
+                                            </td>
+                                            <td class="border-top-0">
+                                                <b>WORKMANSHIP</b>
+                                            </td>
+                                            <td class="border-top-0">:</td>
+                                            <td class="border-top-0" style="background: white;">Good</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-top-0">
+                                                <b>8.</b>
+                                            </td>
+                                            <td class="border-top-0">
+                                                <b>QUALITY OF MATERIALS &amp; COMPONENTS
+                                                    <br/>
+                                                    USED DURING MANUFACTURE
+                                                </b>
+                                            </td>
+                                            <td class="border-top-0">:</td>
+                                            <td class="border-top-0" style="background: white;">Accepted Quality</td>
+                                        </tr>
+                                        <t t-if="pi.product_id.product_type == 'battery'">
+                                            <tr>
+                                                <td class="border-top-0">
+                                                    <b>9.</b>
+                                                </td>
+                                                <td class="border-top-0">
+                                                    <b>BATTERY SR. NO.</b>
+                                                </td>
+                                                <td class="border-top-0">:</td>
+                                                <td class="border-top-0" style="background: white;">
+                                                    <t t-if="li.lot_id and pi.product_id.product_type == 'battery'">
+                                                        <span t-esc="li.lot_id.name"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        NA
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <tr>
+                                            <t t-if="pi.product_id.product_type == 'battery'">
+                                                <td class="border-top-0">
+                                                    <b>10.</b>
+                                                </td>
+                                            </t>
+                                            <t t-if="pi.product_id.product_type == 'cell'">
+                                                <td class="border-top-0">
+                                                    <b>9.</b>
+                                                </td>
+                                            </t>
+                                            <t t-if="pi.product_id.product_type == 'battery'">
+                                                <td class="border-top-0">
+                                                    <b>BATTERY QTY.</b>
+                                                </td>
+                                                <td class="border-top-0">:</td>
+                                                <td class="border-top-0" style="background: white;">1
+                                                    <span t-esc="pi.product_uom_id.name"/>
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <td class="border-top-0">
+                                                    <b>CELL QTY.</b>
+                                                </td>
+                                                <td class="border-top-0">:</td>
+                                                <td class="border-top-0" style="background: white;">
+                                                    <t t-if="li.lot_id">
+                                                        <span t-esc="int((pi.product_id.volts)/2)"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span t-esc="int(li.qty_produced)"/>
+                                                        <span t-esc="pi.product_uom_id.name"/>
+                                                    </t>
+                                                </td>
+                                            </t>
+                                        </tr>
+                                        <tr>
+                                            <t t-if="pi.product_id.product_type == 'battery'">
+                                                <td class="border-top-0">
+                                                    <b>11.</b>
+                                                </td>
+                                            </t>
+                                            <t t-if="pi.product_id.product_type == 'cell'">
+                                                <td class="border-top-0">
+                                                    <b>10.</b>
+                                                </td>
+                                            </t>
+                                            <td class="border-top-0" style="background: white;" colspan="3">
+                                                <div class="row" style="width:100%;margin-left:1mm;">
+                                                    <div style="width:10%">
+                                                        <b>REMARKS</b>
+                                                    </div>
+                                                    <div style="width:2%">:</div>
+                                                    <div style="width:88%">
+                                                        <b>Passes capacity Test as per IS: CI. # 7.10 &amp; 5.2 of
+                                                            latest Rev.
+                                                            <br/>
+                                                            The above battery generally confirms to IS : 5154: 1980 and
+                                                            Latest Rev. IS : 5154 : 2013 Part 1 &amp; 2.
+                                                        </b>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-top-0" colspan="2"
+                                                style="background: white;">
+                                                <br/>
+                                                <strong style="margin-left:10px;">For
+                                                    <span t-field="pi.company_id"/>
+                                                </strong>
+                                            </td>
+                                            <td class="border-top-0"></td>
+                                            <td class="border-top-0" style="background: white;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-top-0" colspan="2"
+                                                style="background: white;">
+                                                <div style="margin-left:80px;">
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    <strong>Authorized Signatory</strong>
+                                                </div>
+                                            </td>
+                                            <td class="border-top-0"></td>
+                                            <td class="border-top-0" style="background: white;"></td>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <p style="page-break-before:always;"></p>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_do_test_certificate_without_hf" inherit_id="report_delivery_order_test_certificate" primary="True">
+        <xpath expr="//t[@t-call='report_custom_layout.external_layout_account_invoice_jar']" position="attributes">
+            <attribute name="t-call">web.basic_layout</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('page')]" position="attributes">
+            <attribute name="style">font-size: 15px;margin-left:10mm;margin-right:5mm;margin-top:5mm;font-weight:bolder;</attribute>
+        </xpath>
+        <xpath expr="." position="attributes">
+            <attribute name="t-name">gts_stock.report_delivery_order_test_certificate</attribute>
+        </xpath>
+    </template>
+
+    <template id="report_do_without_hf_test_certificate">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="gts_stock.report_do_test_certificate_without_hf"/>
+            </t>
+        </t>
+    </template>
+
+
+<!--    <record id="action_report_test_certificate_delivery_order"-->
+<!--            model="stock.picking"-->
+<!--            string="Test Certificate"-->
+<!--            report_type="qweb-pdf"-->
+<!--            name="gts_stock.report_delivery_order_test_certificate"-->
+<!--            file="gts_stock.report_delivery_order_test_certificate"-->
+<!--            paperformat="report_custom_layout.paperformat_custom_test_certificate"/>-->
+
+    <record id="action_report_test_certificate_delivery_order" model="ir.actions.report">
+        <field name="name">Test Certificate</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gts_stock.report_delivery_order_test_certificate</field>
+        <field name="report_file">gts_stock.report_delivery_order_test_certificate</field>
+        <field name="print_report_name">'Test Certificate'</field>
+        <field name="binding_model_id" ref="model_stock_picking"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="report_custom_layout.paperformat_custom_test_certificate"/>
+    </record>
+
+<!--    <record id="action_report_test_certificate_do_without_hf"-->
+<!--            model="stock.picking"-->
+<!--            string="Test Certificate without Header &amp; Footer"-->
+<!--            report_type="qweb-pdf"-->
+<!--            name="gts_stock.report_do_without_hf_test_certificate"-->
+<!--            file="gts_stock.report_do_without_hf_test_certificate"-->
+<!--            paperformat="report_custom_layout.paperformat_custom_test_certificate"/>-->
+
+    <record id="action_report_test_certificate_do_without_hf" model="ir.actions.report">
+        <field name="name">Test Certificate without Header &amp; Footer</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gts_stock.report_do_without_hf_test_certificate</field>
+        <field name="report_file">gts_stock.report_do_without_hf_test_certificate</field>
+        <field name="print_report_name">'Test Certificate without Header &amp; Footer'</field>
+        <field name="binding_model_id" ref="model_stock_picking"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="report_custom_layout.paperformat_custom_test_certificate"/>
+    </record>
+</odoo>

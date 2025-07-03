@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="mail_compose_message_inherit_form_no_create" model="ir.ui.view">
+            <field name="name">mail.compose.message.inherit.view.form.no.create</field>
+            <field name="model">mail.compose.message</field>
+            <field name="inherit_id" ref="mail.email_compose_message_wizard_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_ids']" position="attributes">
+                    <attribute name="options">{'no_create':True, 'no_edit':True, 'no_open':False}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="account_invoice_send_inherit_form_no_create" model="ir.ui.view">
+            <field name="name">account.invoice.send.inherit.view.form.no.create</field>
+<!--            change module account.move.send to account.move.send.wizard-->
+            <field name="model">account.move.send.wizard</field>
+<!--            change ref id account_move_send_form to account_move_send_wizard_form-->
+            <field name="inherit_id" ref="account.account_move_send_wizard_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='mail_partner_ids']" position="attributes">
+                    <attribute name="options">{'no_create':True, 'no_edit':True, 'no_open':False}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

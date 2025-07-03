@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="action_pending_for_approval" model="ir.actions.act_window">
+            <field name="name">Pending for Approval</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="domain">[('state', '=', 'sent_for_approval')]</field>
+            <field name="context">{'create': False}</field>
+            <field name="search_view_id" ref="sale.sale_order_view_search_inherit_sale"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Quotation Pending for Approval
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_quotation_pending_for_approval"
+                  action="action_pending_for_approval"
+                  name="Pending for Approval"
+                  parent="sale.sale_order_menu"
+                  groups="gts_sale.quotation_approval"
+                  sequence="1"/>
+
+        <menuitem id="menu_invoice_creation_approval"
+                  name="Invoice Creation Approval"
+                  parent="sale.sale_menu_root"
+                  sequence="3"/>
+
+
+        <record id="action_invoice_creation_waiting" model="ir.actions.act_window">
+            <field name="name">Waiting for Approval</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="domain">[('sent_for_invoice_approval', '=', True)]</field>
+            <field name="context">{'create': False}</field>
+            <field name="search_view_id" ref="sale.sale_order_view_search_inherit_sale"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Sales Order Waiting for Invoice Creation
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_invoice_creation_waiting"
+                  action="action_invoice_creation_waiting"
+                  name="Waiting for Approval"
+                  parent="gts_sale.menu_invoice_creation_approval"
+                  sequence="1"/>
+
+        <record id="action_invoice_creation_approved" model="ir.actions.act_window">
+            <field name="name">Approved</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="domain">[('invoice_creation_approved', '=', True),
+                ('invoice_created', '=', False)]</field>
+            <field name="context">{'create': False}</field>
+            <field name="search_view_id" ref="sale.sale_order_view_search_inherit_sale"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Sales Order approved for Invoice Creation
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_invoice_creation_approved"
+                  action="action_invoice_creation_approved"
+                  name="Approved"
+                  parent="gts_sale.menu_invoice_creation_approval"
+                  sequence="2"/>
+
+        <record id="action_invoice_creation_rejected" model="ir.actions.act_window">
+            <field name="name">Rejected</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="domain">[('is_inv_rejected', '=', True)]</field>
+            <field name="context">{'create': False}</field>
+            <field name="search_view_id" ref="sale.sale_order_view_search_inherit_sale"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Sales Order rejected for Invoice Creation
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_invoice_creation_rejected"
+                  action="action_invoice_creation_rejected"
+                  name="Rejected"
+                  parent="gts_sale.menu_invoice_creation_approval"
+                  sequence="3"/>
+
+    </data>
+</odoo>

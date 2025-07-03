@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+   <data>
+        <record id="product_approve_view" model="ir.ui.view">
+            <field name="name">approve.product.form</field>
+            <field name="model">approve.product</field>
+            <field name="arch" type="xml">
+                <form string="Approve Product">
+                    <group>
+                        <group>
+                            <field name="is_finished_product" />
+                        </group>
+                        <group>
+                            <field name="cost" required="is_finished_product is False" invisible="is_finished_product is True"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="approve_l1" string="Approve" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+       <record id="action_approve_product" model="ir.actions.act_window">
+            <field name="name">Approve Product</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">approve.product</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="purchase_order_kpis_tree_inherit" model="ir.ui.view">
+            <field name="name">purchase.order.inherit.tree.views</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="/list//field[@name='state']" position="after">
+                    <field name="stock_status" widget="badge" decoration-success="stock_status == 'received'" decoration-info="stock_status == 'pending'" readonly="True"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="purchase_order_inherit_view_form" model="ir.ui.view">
+            <field name="name">purchase.order.inherit.form.views</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <field name="date_order" position="after">
+                    <field name="x_dead_date"/>
+<!--                    <field name="gst_treat" invisible="1"/>-->
+                </field>
+                <field name="user_id" position="before">
+                    <field name="x_with_signature"/>
+                </field>
+                <xpath expr="//page[@name='purchase_delivery_invoice']//group[@name='other_info']" position="inside">
+                    <field name="stock_status" widget="selection" readonly="True"/>
+                </xpath>
+                <xpath expr="//field[@name='currency_id']" position="after">
+                    <field name="special_po"/>
+                </xpath>
+
+                <xpath expr="/form//field[@name='order_line']//list//field[@name='qty_received']" position="after">
+                    <field name="qty_to_rcv"/>
+                </xpath>
+
+                <xpath expr="/form//field[@name='order_line']//list//field[@name='price_unit']" position="after">
+                    <field name="lst_pur_price"/>
+                    <field name="excess_qty" invisible="1"/>
+                    <field name="unit_pallet_qty" invisible = "parent.special_po == False" />
+                    <field name="pallets" invisible = "parent.special_po == False" />
+                    <field name="balance_qty" invisible = "parent.special_po == False" decoration-success="excess_qty==True and balance_qty &gt; 0" decoration-danger="excess_qty==False and pallets &lt; 1"/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<odoo>
+        <record id="company_footer_logo" model="ir.attachment">
+            <field name="name">Company Footer Logo</field>
+            <field name="datas" type="base64" file="report_custom_layout/static/src/company_footer_logo.jpg"></field>
+<!--            <field name="res_model">hr.applicant</field>-->
+<!--            <field name="res_id" ref="hr_recruitment.hr_case_salesman0"/>-->
+        </record>
+
+</odoo>

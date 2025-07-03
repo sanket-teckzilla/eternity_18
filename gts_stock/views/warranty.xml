@@ -1,0 +1,59 @@
+<odoo>
+
+    <record model="ir.ui.view" id="warranty_period_lot_tree_view">
+        <field name="name">warranty.period.tree.view</field>
+        <field name="model">warranty.period</field>
+        <field name="arch" type="xml">
+            <list string="Warranty Report">
+                <field name="partner_id"/>
+                <field name="battery_no"/>
+                <field name="cell_type"/>
+                <field name="battery_sr_no"/>
+                <field name="invoice_ref"/>
+                <field name="picking_id"/>
+                <field name="validity_from"/>
+                <field name="validity_to"/>
+            </list>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="warranty_period_lot_form_view">
+        <field name="name">warranty.period.form.view</field>
+        <field name="model">warranty.period</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="battery_no"/>
+                            <field name="cell_type"/>
+                            <field name="battery_sr_no"/>
+                            <field name="cell_sr_no"/>
+                        </group>
+                        <group>
+                            <field name="invoice_ref"/>
+                            <field name="picking_id"/>
+                            <field name="validity_from"/>
+                            <field name="validity_to"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_view_warranty_period_lot" model="ir.actions.act_window">
+        <field name="name">Warranty Analysis</field>
+        <field name="res_model">warranty.period</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'create': False}</field>
+    </record>
+
+    <menuitem id="menu_warranty_period_lot"
+              name="Warranty Analysis"
+              parent="stock.menu_warehouse_report"
+              sequence="101"
+              action="action_view_warranty_period_lot"/>
+
+</odoo>

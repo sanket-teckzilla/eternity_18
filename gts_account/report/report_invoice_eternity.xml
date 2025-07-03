@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_account_invoice_eternity_rja">
+         <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+          <t t-call="report_account_invoice.external_layout_account_invoice_rja">
+            <div class="page">
+              <style>
+                .cust_table{
+                  width: 100%;
+                  border: 2px solid black;
+                  border-collapse: collapse;
+                }
+                .cust_table th, .cust_table td{
+                  border: 2px solid black;
+                  padding: 4px;
+                }
+                .bottom_border{
+                  border-bottom: 2px solid black;
+                }
+                .invoice_table {
+                  width: 100%;
+                  border: 2px solid black;
+                  border-collapse: collapse;
+                }
+                .invoice_table th, .invoice_table td {
+                  border-right: 2px solid black;
+                  padding: 4px;
+                }
+              </style>
+              <table class="cust_table">
+                <tr>
+                  <td colspan="3" class="text-center">
+                    <h4><strong>Tax Invoice</strong></h4>
+                  </td>
+                </tr>
+                <tr>
+                  <td rowspan="3" width="48%">
+                    <strong>Name and Address of Buyer:</strong><br/>
+                    <span t-field="o.partner_id.name"/><br/>
+                    <span t-field="o.partner_id.street"/><br/>
+                    <span t-field="o.partner_id.street2"/><br/>
+                    <span t-if="o.partner_id.city" t-field="o.partner_id.city"/>
+                    <span t-if="o.partner_id.zip" t-field="o.partner_id.zip"/>
+                    <span t-if="o.partner_id.state_id" t-field="o.partner_id.state_id"/>
+                    <span t-if="o.partner_id.country_id" t-field="o.partner_id.country_id"/><br/>
+                  </td>
+                  <td class="text-center" width="26%">
+                    <strong>Invoice Number</strong>
+                    <div t-field="o.name"/>
+                  </td>
+                  <td class="text-center" width="26%">
+                    <strong>Invoice Date</strong>
+                    <div t-field="o.invoice_date" t-options="{'format': 'd MMMM Y'}"/>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">
+                    <strong>Buyer PO Number</strong>
+                    <div t-field="o.name"/>
+                  </td>
+                  <td class="text-center">
+                    <strong>Buyer PO Date</strong>
+                    <div t-field="o.invoice_date" t-options="{'format': 'd MMMM Y'}"/>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">
+                    <strong>Price</strong>
+                    <div t-field="o.name"/>
+                  </td>
+                  <td class="text-center">
+                    <strong>Price terms</strong>
+                    <div t-field="o.invoice_date" t-options="{'format': 'd MMMM Y'}"/>
+                  </td>
+                </tr>
+                <tr>
+                  <td rowspan="5"><strong>Consignee Other Than Buyer / Delivery Address</strong><br/>
+                    <span t-if="o.partner_shipping_id.name" t-field="o.partner_shipping_id.name"/><br/>
+                    <span t-if="o.partner_shipping_id.street" t-field="o.partner_shipping_id.street"/><br/>
+                    <span t-if="o.partner_shipping_id.street2" t-field="o.partner_shipping_id.street2"/><br/>
+                    <span t-if="o.partner_shipping_id.city" t-field="o.partner_shipping_id.city"/>
+                    <span t-if="o.partner_shipping_id.zip" t-field="o.partner_shipping_id.zip"/>
+                    <span t-if="o.partner_shipping_id.state_id" t-field="o.partner_shipping_id.state_id"/>
+                    <span t-if="o.partner_shipping_id.country_id" t-field="o.partner_shipping_id.country_id"/><br/>
+                    <strong>Kind Attention:</strong> <span t-field="o.partner_id.name"/><br/>
+                    Tel: <span t-field="o.partner_id.phone"/><br/>
+                    Email: <span t-field="o.partner_id.email"/>
+                  </td>
+                  <td class="text-center">
+                    <strong>Eternity PAN No.</strong>
+                    <div/>
+                  </td>
+                  <td class="text-center">
+                    <strong>Buyer PAN No.</strong>
+                    <div/>
+                  </td>
+                </tr>
+                <tr class="text-center">
+                  <td>
+                    <strong>Eternity GSTIN</strong>
+                    <div/>
+                  </td>
+                  <td>
+                    <strong>Buyer GSTIN</strong>
+                    <div/>
+                  </td>
+                </tr>
+                <tr class="text-center">
+                  <td>
+                    <strong>Place of Supply</strong>
+                    <div t-field="o.partner_id.state_id"/>
+                  </td>
+                  <td>
+                    <strong>State Code</strong>
+                    <div t-field="o.partner_id.state_id.l10n_in_tin"/>
+                  </td>
+                </tr>
+                <tr class="text-center">
+                  <td>
+                    <strong>E Way Bill Number</strong>
+                    <div/>
+                  </td>
+                  <td>
+                    <strong>E Way Bill Date</strong>
+                    <div/>
+                  </td>
+                </tr>
+                <tr class="text-center">
+                  <td>
+                    <strong>Vehicle Number</strong>
+                    <div/>
+                  </td>
+                  <td>
+                    <strong>Lorry Receipt No</strong>
+                    <div/>
+                  </td>
+                </tr>
+              </table>
+
+              <table class="invoice_table" name="invoice_line_table">
+                <thead>
+                  <tr class="bottom_border">
+                   <th width="7%">S.No.</th>
+                   <th width="45%" class="text-center">Description &amp; Specification of Goods</th>
+                   <th width="13%" class="text-center">HSN/SAC</th>
+                   <th width="13%" class="text-center">Qty</th>
+                   <th width="13%" class="text-center">Rate</th>
+                   <th width="13%" class="text-center">Amount</th>
+                  </tr>
+                </thead>
+                <tbody class="invoice_tbody">
+                    <tr t-foreach="o.invoice_line_ids" t-as="l">
+                        <td class="text-center"><span t-esc="l_index + 1"/></td>
+                        <td class=""><span t-field="l.name"/></td>
+                        <td class="text-right ">
+                            <span t-field="l.product_id.l10n_in_hsn_code"/>
+                        </td>
+                        <td class="text-right ">
+                            <span t-field="l.quantity"/>
+                            <span t-field="l.uom_id" groups="product.group_uom"/>
+                        </td>
+                        <td class="text-right ">
+                            <span t-field="l.price_unit"/>
+                        </td>
+                        <td class="text-right " id="subtotal">
+                            <span t-field="l.price_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+                        </td>
+                    </tr>
+                    <tr t-foreach="range(max(5-len(o.invoice_line_ids),0))" t-as="l">
+                        <td height="20px;" class=""/>
+                        <td class=""/>
+                        <td class=""/>
+                        <td class=""/>
+                        <td class=""/>
+                        <td class=""/>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="cust_table">
+              <tr>
+                <td width="61%" t-att-rowspan="(len(o.amount_by_group) + 1) if len(o.amount_by_group) &gt; 0 else '1' ">
+                  <strong>Terms &amp; Condition:</strong>
+                  <div t-field="o.narration"/>
+                </td>
+                <td width="26%" class="text-right"><strong>Total</strong></td>
+                <td class="text-right">
+                  <span t-field="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+                </td>
+              </tr>
+              <t t-foreach="o.amount_by_group" t-as="amount_by_group">
+                <tr style="border-bottom:1px solid #dddddd;">
+                    <t t-if="len(o.line_ids.filtered(lambda line: line.tax_line_id)) in [0, 1] and o.amount_untaxed == amount_by_group[2]">
+                        <td class="text-right"><span t-esc="amount_by_group[0]"/></td>
+                        <td class="text-right">
+                            <span t-esc="amount_by_group[3]"/>
+                        </td>
+                    </t>
+                    <t t-else="">
+                        <td class="text-right">
+                            <span t-esc="amount_by_group[0]"/>
+                            <span>&amp;nbsp;<span>on</span>
+                                <t t-esc="amount_by_group[4]"/>
+                            </span>
+                        </td>
+                        <td class="text-right">
+                            <span t-esc="amount_by_group[3]"/>
+                        </td>
+                    </t>
+                </tr>
+              </t>
+              <tr>
+                  <td><strong>Amount In Words:</strong> <span t-esc="o.currency_id.amount_to_text(o.amount_total)"/></td>
+                  <td class="text-right"><strong>Grand Total</strong></td>
+                  <td class="text-right"> <span t-field="o.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></td>
+              </tr>
+            </table>
+
+              <table class="invoice_table" style="page-break-inside: avoid;">
+                <tr>
+                  <td width="61%" class="bottom_border"><strong>Details For Payment:</strong><br/>
+                  Yes Bank Ltd , Lamington Road Branch , Scranton 400004 Ac no: 018961900000674 , IFSC Code: YESB0000189 </td>
+                  <td class="text-center">
+                    <div t-field="res_company.partner_id.name"/>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="border-right:1px solid black;"><strong>Declaration:</strong> <br/>
+                  I/We hereby certify that this invoice shows the actual price of the goods described and that all particulars are true and correct</td>
+                  <td class="text-center" style="vertical-align:bottom;"><div>Authorised Signatory &amp; Seal</div></td>
+                </tr>
+              </table>
+            </div>
+          </t>
+        </t>
+      </t>
+    </template>
+
+</odoo>

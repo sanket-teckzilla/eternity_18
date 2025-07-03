@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_update_lot_quantity,update.lot.quantity,model_update_lot_quantity,base.group_user,1,1,1,1
+access_update_cost,update.cost,model_update_cost,base.group_user,1,1,1,1
+access_approve_product,approve.product,model_approve_product,base.group_user,1,1,1,1
+
+
+

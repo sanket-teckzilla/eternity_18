@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="quotation_request_modify_view" model="ir.ui.view">
+        <field name="name">sale.modify.form</field>
+        <field name="model">sale.modify</field>
+        <field name="arch" type="xml">
+            <form string="Request to Modify">
+                <group>
+                    <field name="comment" required="1"/>
+                </group>
+                <footer>
+                    <button name="request_to_modify" string="Request to Modify" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_quotation_request_modify" model="ir.actions.act_window">
+        <field name="name">Quotation Modification Comments</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.modify</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

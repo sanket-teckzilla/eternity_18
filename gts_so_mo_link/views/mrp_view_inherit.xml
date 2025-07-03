@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="mrp_production_view_inherit_production" model="ir.ui.view">
+        <field name="name">mrp.production.form.inherit.plan</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='components']//field[@name='move_raw_ids']/list/field[@name='product_id']"
+                   position="replace">
+                <field name="product_id" force_save="1" required="1" context="{'default_type': 'product'}"
+                       readonly="state in ('cancel','progress','to_close','done')"/>
+            </xpath>
+
+            <!--            <xpath expr="//page[@name='components']//field[@name='lot_ids']" position="before">-->
+            <!--                <field name="finished_lot_ids" domain="[('product_id','=',product_id)]"/>-->
+            <!--                <field name="custom_product_uom_qty"/>-->
+            <!--            </xpath>-->
+
+            <!--              <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='components']/field[@name='move_raw_ids']/list[1]/field[@name='location_id']" position="after">-->
+
+            <!--                <field name="finished_lot_ids" domain="[('product_id','=',product_id)]" optional="show" />-->
+            <!--&lt;!&ndash;                <field name="custom_product_uom_qty"/>&ndash;&gt;-->
+            <!--            </xpath>-->
+
+            <xpath expr="//field[@name='bom_id']" position="after">
+                <field name="untaxed_amount"
+                       invisible="state in ('done','cancel')"/>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="untaxed_amount_updated" invisible="1"/>
+                <field name="partner_id"
+                       readonly="state in ('progress','to_close','done','cancel')"
+                       options="{'no_create':True, 'no_edit':True, 'no_open':False}"/>
+                <field name="client_order_ref"
+                       readonly="state in ('progress','to_close','done','cancel')"/>
+                <field name="delivery_date"/>
+                <field name="so_id"/>
+                <field name="rate_on_sample_cell"
+                       invisible="state == 'done'"/>
+            </xpath>
+            <xpath expr="//field[@name='date_start']" position="after">
+                <field name="attach_production_report" filename="attach_production_report_name" widget="download"/>
+                <field name="attach_production_report_name" invisible="1"/>
+            </xpath>
+            <!--            <xpath expr="//field[@name='user_id']" position="after">-->
+            <!--                <field name="attach_production_report"/>-->
+            <!--            </xpath>-->
+            <xpath expr="//sheet//div[@name='button_box']" position="inside">
+                <button name="action_view_lot_numbers" type="object" icon="fa-list"
+                        invisible="lot_numbers_count == 0">
+                    <field name="lot_numbers_count" widget="statinfo" string="Lot/Serial Number(s)"/>
+                </button>
+                <button name="action_view_test_certificate" type="object" icon="fa-list"
+                        invisible="test_certificate_count == 0">
+                    <field name="test_certificate_count" widget="statinfo" string="Test Certificate(s)"/>
+                </button>
+            </xpath>
+            <xpath expr="//notebook//page[2]" position="after">
+                <page name="test_certificate_list" string="Test Certificate" invisible="1">
+                    <field name="test_report_ids"/>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='date_deadline']" position="attributes">
+                <attribute name="readonly">state in ('progress', 'to_close', 'done', 'cancel')</attribute>
+            </xpath>
+            <xpath expr="//field[@name='date_start']" position="attributes">
+                <!--                <attribute name="attrs">{'readonly': [ '|', '&amp;', ('routing_id', '=', False), ('state', 'in',-->
+                <!--                    ['process', 'to_close', 'done', 'cancel']), '&amp;', ('routing_id', '!=', False),-->
+                <!--                    ('state', 'in', ('process', 'to_close', 'done', 'cancel'))]}-->
+                <!--                </attribute>-->
+
+                <!--                <attribute name="attrs">{'readonly': [ '|', ('state', 'in',-->
+                <!--                    ['progress', 'to_close', 'done', 'cancel']),-->
+                <!--                    ('state', 'in', ('progress', 'to_close', 'done', 'cancel'))]}-->
+                <!--                </attribute>-->
+                <attribute name="readonly">state in ['progress', 'to_close', 'done', 'cancel'] or state in ('progress',
+                    'to_close', 'done', 'cancel')
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='date_finished']" position="attributes">
+                <!--                <attribute name="attrs">{'readonly': [ '|', '&amp;', ('routing_id', '=', False), ('state', 'in',-->
+                <!--                    ['process', 'to_close', 'done', 'cancel']), ('routing_id', '!=', False) ], 'invisible': [-->
+                <!--                    ('routing_id', '!=', False), ('state', 'in', ('process', 'to_close', 'done', 'cancel'))]}-->
+                <!--                </attribute>-->
+
+                <!--                <attribute name="attrs">{'readonly': [ ('state', 'in',-->
+                <!--                    ['progress', 'to_close', 'done', 'cancel']) ], 'invisible': [-->
+                <!--                    ('state', 'in', ('progress', 'to_close', 'done', 'cancel'))]}-->
+                <!--                </attribute>-->
+                <attribute name="readonly">state in ['progress', 'to_close', 'done', 'cancel'] or state in ('progress',
+                    'to_close', 'done', 'cancel')
+                </attribute>
+            </xpath>
+            <xpath expr="//page[@name='miscellaneous']//field[@name='origin']" position="attributes">
+                <attribute name="readonly">state in ('progress', 'to_close', 'done', 'cancel')
+                </attribute>
+            </xpath>
+
+<!--            inside base total 12 buttons but here you add xpath on 13 button-->
+
+<!--            <xpath expr="//form/header/button[13]" position="attributes">-->
+<!--                <attribute name="confirm">"Are you sure want to cancel?"</attribute>-->
+<!--            </xpath>-->
+
+
+            <!--            <xpath expr="/form//field[@name='allowed_product_ids']" position="replace"/>-->
+        </field>
+    </record>
+
+    <!--    <record id="view_mrp_consumption_warning_form_inherit" model="ir.ui.view">-->
+    <!--        <field name="name">mrp.consumption.inherit</field>-->
+    <!--        <field name="model">mrp.consumption.warning</field>-->
+    <!--        <field name="inherit_id" ref="mrp.view_mrp_consumption_warning_form"/>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <xpath expr="" position=""-->
+    <!--        </field>-->
+    <!--    </record>-->
+    <record id="mrp_bom_form_inherited" model="ir.ui.view">
+        <field name="name">mrp.bom.form.inherited</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form/sheet//field[@name='active']" position="after">
+                <field name="sent_for_approval" invisible="1"/>
+            </xpath>
+            <xpath expr="/form/sheet" position="before">
+                <header>
+                    <button name="approve_bom" type="object" string="Approve" class="btn-success"
+                            groups="gts_so_mo_link.bom_approver"
+                            invisible="not sent_for_approval"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="mrp_bom_tree_inherited" model="ir.ui.view">
+        <field name="name">mrp.bom.tree.inherited</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="/list//field[@name='product_tmpl_id']" position="after">
+                <field name="sent_for_approval" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="mrp_bom_filter_inherited" model="ir.ui.view">
+        <field name="name">mrp.bom.filter.inherited</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.view_mrp_bom_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="/search//filter[@name='inactive']" position="attributes">
+                <attribute name="groups">gts_so_mo_link.bom_approver</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="mrp_production_view_inherit_production_tree" model="ir.ui.view">
+        <field name="name">mrp.production.tree.inherit.view</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="attributes">
+                <attribute name="default_order">create_date desc</attribute>
+            </xpath>
+            <xpath expr="/list//field[@name='origin']" position="after">
+                <field name="partner_id"/>
+                <field name="untaxed_amount_updated" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_bom_to_approve" model="ir.actions.act_window">
+        <field name="name">BOMs To Approve</field>
+        <field name="res_model">mrp.bom</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('active','=',False),('sent_for_approval','=',True)]</field>
+    </record>
+
+    <menuitem id="bom_to_approve_menu" name="BOMs To Approve" action="action_bom_to_approve"
+              groups="gts_so_mo_link.bom_approver" parent="mrp.menu_mrp_root"/>
+    <!-- Wkhtmltopdf failed -->
+
+</odoo>

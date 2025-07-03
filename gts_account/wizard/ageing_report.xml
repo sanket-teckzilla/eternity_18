@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="po_ageing_report_form_view" model="ir.ui.view">
+            <field name="name">po.ageing.report.view</field>
+            <field name="model">po.ageing.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="state" invisible="1"/>
+                    <field name="filename" invisible="1"/>
+                    <div invisible="state == 'choose'">
+                        <group>
+                            <group>
+                                <field name="duration"/>
+                                <field name="report_type"/>
+                            </group>
+                            <group>
+                                <field name="end_date"/>
+                            </group>
+                        </group>
+                    </div>
+
+                    <div invisible="state == 'get'">
+                        <h2>Report Download</h2>
+                        <p>File : <field name="report_file" readonly="1" filename="filename"/></p>
+                    </div>
+                    <footer invisible="state == 'choose'">
+                        <button name="print_aged_reports" string="Print" type="object" class="oe_highlight" />
+                        <button special="cancel" string="Close" type="object" class="btn-primary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window' id='po_ageing_report_action'>
+            <field name="name">Custom Aged report</field>
+            <field name="res_model">po.ageing.report</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="po_ageing_report_form_view"/>
+            <field name="target">new</field>
+        </record>
+
+<!--        change parent module account_reports to account-->
+        <menuitem action="po_ageing_report_action" id="menu_po_ageing_report" name="Custom Aged Report"
+                  parent="account.account_reports_partners_reports_menu"/>
+    </data>
+</odoo>

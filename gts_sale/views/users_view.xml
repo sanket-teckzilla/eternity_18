@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="user_form_view_pricelist" model="ir.ui.view">
+            <field name="name">users.pricelist.view</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='action_id']/.." position="after">
+                    <group string="Pricelist">
+                        <field name="pricelist"/>
+                    </group>
+                </xpath>
+            </field>
+    </record>
+</odoo>

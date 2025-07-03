@@ -1,0 +1,7 @@
+<odoo>
+
+    <record id="access_profit_report" model="res.groups">
+        <field name="name">Profitability Report</field>
+    </record>
+
+</odoo>

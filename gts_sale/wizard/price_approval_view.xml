@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_price_approval" model="ir.ui.view">
+        <field name="name">price.approval.view</field>
+        <field name="model">price.approval</field>
+        <field name="arch" type="xml">
+            <form string="Price Request">
+                <group>
+                    <group>
+                        <field name="date"/>
+                        <field name="customer"/>
+                        <field name="battery_rating_cell_type"/>
+                        <field name="drawing_no"/>
+                        <field name="currency_id"/>
+                    </group>
+                    <group>
+                        <field name="price_req"/>
+                        <field name="validity"/>
+                        <field name="transportation"/>
+                        <field name="payment_term"/>
+                        <field name="justification"/>
+                    </group>
+                </group>
+
+                <footer>
+                    <button name="send_price_request" string="Submit"
+                            colspan="1" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_price_approval" model="ir.actions.act_window">
+        <field name="name">Price Request</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">price.approval</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_price_approval"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

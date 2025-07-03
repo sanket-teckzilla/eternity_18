@@ -1,0 +1,7 @@
+<odoo>
+
+    <record id="group_daily_analysis_report_access" model="res.groups">
+        <field name="name">Daily Analysis Report</field>
+    </record>
+
+</odoo>

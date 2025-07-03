@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="quotation_sent_for_approval" model="mail.template">
+            <field name="name">Request for Quotation Approval: (${object.name})</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="subject">Request for Quotation Approval: (${object.name})</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html"><![CDATA[
+                <p>Dear's,</p><br/>
+
+                <p>${object.user_id.name} has requested to approve Quotation No. <b>${object.name}</b> dated <b>${object.date_order.strftime('%d/%m/%Y')}</b>
+                having value <b>${format_amount(object.amount_untaxed, object.currency_id)} </b> for customer <b>${object.partner_id.display_name}</b>. Please find the attached price request to the mail. </p><br/>
+
+                <p>Please click on the link below to view further details.</p><br/>
+                <p>
+                <a href="_sales_url" style="background-color: #9E588B; margin-top: 10px; padding: 10px;
+                text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;">View Quotation</a>
+                </p><br/>
+
+                <p>Thank You</p>
+                ]]>
+            </field>
+        </record>
+
+        <record id="quotation_approved_email" model="mail.template">
+            <field name="name">Quotation Approved (${object.name})</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="subject">Quotation Approved (${object.name})</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html"><![CDATA[
+                <p>Dear ${object.user_id.name},</p><br/>
+
+                <p>Quotation <b>${object.name}</b> has been approved by <b>${object.env.user.name}</b> for customer <b>${object.partner_id.display_name}</b></p><br/>
+                <p>Please click on the link below to view further details.</p><br/>
+                <p>
+                <a href="_sales_url" style="background-color: #9E588B; margin-top: 10px; padding: 10px;
+                text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;">View Quotation</a>
+                </p><br/>
+
+                <p>Thank You</p>
+                ]]>
+            </field>
+        </record>
+
+        <record id="quotation_request_to_modify" model="mail.template">
+            <field name="name">Request to Modify Quotation: (${object.sale_id.name})</field>
+            <field name="model_id" ref="gts_sale.model_sale_modify"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="subject">Request to Modify Quotation: (${object.sale_id.name})</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html"><![CDATA[
+                <p>Dear ${object.sale_id.user_id.name},</p><br/>
+
+                <p>${object.env.user.name} has requested to modify the Quotation <b>${object.sale_id.name}</b> for the following comment.</p><br/>
+                <p><b>Comment:</b> ${object.comment}</p><br/><br/>
+                <p>Please click on the link below to view further details.</p><br/>
+                <p>
+                <a href="_sales_url" style="background-color: #9E588B; margin-top: 10px; padding: 10px;
+                text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;">View Quotation</a>
+                </p><br/>
+
+                <p>Thank You</p>
+                ]]>
+            </field>
+        </record>
+
+        <record id="quotation_po_amount_mismatch" model="mail.template">
+            <field name="name">Quotation and PO Amount Mismatch: (${object.name})</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="subject">Quotation and PO Amount Mismatch: (${object.name})</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html"><![CDATA[
+                <p>Dear's,</p><br/>
+
+                <p>Quotation and PO Value does not match, please take necessary action<br/><br/>
+                <p>Please click on the link below to view further details.</p><br/>
+                <p>
+                <a href="_sales_url" style="background-color: #9E588B; margin-top: 10px; padding: 10px;
+                text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;">View Quotation</a>
+                </p><br/>
+
+                <p>Thank You</p>
+                ]]>
+            </field>
+        </record>
+
+        <function name="write" model="ir.model.data">
+           <function name="search" model="ir.model.data">
+               <value eval = "[('module','=','sale'),('name', '=', 'email_template_edi_sale')] "/>
+           </function>
+           <value eval="{'noupdate': False} "/>
+        </function>
+
+        <record id="sale.email_template_edi_sale" model="mail.template">
+            <field name="partner_to">${object.partner_id.id}, ${object.user_id.partner_id.id}</field>
+        </record>
+
+    </data>
+</odoo>

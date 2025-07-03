@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!--        <record id="seq_invoice" model="ir.sequence">-->
+        <!--            <field name="name">Custom Invoice Sequence</field>-->
+        <!--            <field name="code">sale.order</field>-->
+        <!--            <field name="prefix">ET</field>-->
+        <!--            <field name="padding"></field>-->
+        <!--        </record>-->
+
+
+        <record id="invoice_form_inherit_view_form" model="ir.ui.view">
+            <field name="name">account.invoice.inherit.form.view.report</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <!--                <xpath expr="//field[@name='name']" position="after">-->
+                <!--                    <field name="name" groups="base.group_no_one"/>-->
+                <!--                </xpath>-->
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='currency_id']" position="before">
+                    <field name="x_studio_eway_bill_no" string="E-way Bill No."/>
+                </xpath>
+
+                <!--                Commented to resolve installation errors-->
+                <!--                <field name="x_with_signature" position="attributes">-->
+                <!--                    <attribute name="invisible">1</attribute>-->
+                <!--                </field>-->
+                <field name="ref" position="after">
+                    <!--                    <field name="move_type" invisible="1"/>-->
+                    <field name="bill_attachment"
+                           invisible="move_type != 'in_invoice'"
+                           required="move_type == 'in_invoice'"/>
+                    <field name="region_id"/>
+                    <field name="po_number"/>
+                    <field name="service_bill" invisible="1"/>
+                    <field name="categ_id" widget="many2many_tags"
+                    />
+
+<!--                    <field name="categ_id" widget="many2many_tags"-->
+<!--                           invisible="move_type != 'out_invoice'"/>-->
+
+                </field>
+
+                <xpath expr="//notebook/page/field[@name='invoice_line_ids']/list/field[@name='price_unit']"
+                       position="after">
+                    <field name="move_type" invisible="1"/>
+                    <field name="purchase_price_subtotal" invisible="1"
+                           groups="gts_account.group_gross_profit_on_invoice"/>
+                    <field name="purchase_price"
+                           groups="gts_account.group_gross_profit_on_invoice"/>
+                    <!--                    <field name="purchase_price" column_invisible="move_type != 'out_invoice'"-->
+                    <!--                           groups="gts_account.group_gross_profit_on_invoice"/>-->
+                    <field name="margin"
+
+                           groups="gts_account.group_gross_profit_on_invoice"/>
+                    <!--                    <field name="margin"-->
+                    <!--                           column_invisible="move_type != 'out_invoice'"-->
+                    <!--                           groups="gts_account.group_gross_profit_on_invoice"/>-->
+                </xpath>
+
+                <xpath expr="//notebook/page/group//field[@name='amount_residual']" position="after">
+                    <field name="move_type" invisible="1"/>
+                    <field name="total_purchase_price"
+
+                           groups="gts_account.group_gross_profit_on_invoice"/>
+                    <!--                        <field name="total_purchase_price"-->
+                    <!--                           invisible="move_type != 'out_invoice'" -->
+                    <!--                           groups="gts_account.group_gross_profit_on_invoice"/>-->
+                    <field name="margin"
+                           groups="gts_account.group_gross_profit_on_invoice"/>
+                    <!--                    <field name="margin" invisible="move_type != 'out_invoice'"-->
+                    <!--                           groups="gts_account.group_gross_profit_on_invoice"/>-->
+                    <field name="margin_percentage"
+                           groups="gts_account.group_gross_profit_on_invoice"/>
+                    <!--                    <field name="margin_percentage" invisible="move_type != 'out_invoice'"-->
+                    <!--                           groups="gts_account.group_gross_profit_on_invoice"/>-->
+                </xpath>
+            </field>
+        </record>
+
+        <!--        <record id="sale_invoice_form_inherit_view_form" model="ir.ui.view">-->
+        <!--            <field name="name">account.move.inherit.form.view.sale</field>-->
+        <!--            <field name="model">account.move</field>-->
+        <!--            <field name="inherit_id" ref="sale.account_invoice_form"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <field name="team_id" position="after">-->
+        <!--                    <field name="x_with_signature"/>-->
+        <!--                </field>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+        <record id="sale_invoice_form_inherit_view_form" model="ir.ui.view">
+            <field name="name">account.move.inherit.form.view.sale</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='sale_info_group']/field[@name='invoice_user_id']" position="after">
+                    <field name="x_with_signature"/>
+                </xpath>
+            </field>
+        </record>
+        <!--Commented by Cj- It was giving me error-->
+        <!--        <record id="view_account_invoice_filter_inherited" model="ir.ui.view">-->
+        <!--            <field name="name">account.invoice.filter.inherit</field>-->
+        <!--            <field name="model">account.move</field>-->
+        <!--            <field name="inherit_id" ref="account.view_account_invoice_filter"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <xpath expr="//search/field[@name='journal_id']" position="after">-->
+        <!--                    <field name="categ_id" />-->
+        <!--                </xpath>-->
+        <!--            </field>-->
+        <!--        </record>-->
+        <!--Comment End here-->
+        <!--        <record id="view_account_move_filter_inherited" model="ir.ui.view">-->
+        <!--            <field name="name">account.move.filter.inherit</field>-->
+        <!--            <field name="model">account.move</field>-->
+        <!--            <field name="inherit_id" ref="account.view_account_move_filter"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <xpath expr="/search/field[@name='journal_id']" position="after">-->
+        <!--                    <field name="categ_id" attrs="{'invisible':[('type','!=','out_invoice')]}"/>-->
+        <!--                </xpath>-->
+        <!--            </field>-->
+        <!--        </record>-->
+        <record id="account.action_move_out_invoice_type" model="ir.actions.act_window">
+            <field name="name">Invoices</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">list,kanban,form,pivot,graph</field>
+            <field name="view_id" ref="account.view_invoice_tree"/>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="domain">[('move_type', '=', 'out_invoice')]</field>
+            <field name="context">{'default_move_type': 'out_invoice'}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a customer invoice
+                </p>
+                <p>
+                    Create invoices, register payments and keep track of the discussions with your customers.
+                </p>
+            </field>
+        </record>
+
+        <record id="account.action_move_out_refund_type" model="ir.actions.act_window">
+            <field name="name">Credit Notes</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">list,kanban,form,pivot,graph</field>
+            <field name="view_id" ref="account.view_invoice_tree"/>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="domain">[('move_type', '=', 'out_refund')]</field>
+            <field name="context">{'default_move_type': 'out_refund'}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a credit note
+                </p>
+                <p>
+                    Note that the easiest way to create a credit note is to do it directly
+                    from the customer invoice.
+                </p>
+            </field>
+        </record>
+
+        <record id="account.action_move_in_invoice_type" model="ir.actions.act_window">
+            <field name="name">Bills</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">list,kanban,form,pivot,graph</field>
+            <field name="view_id" ref="account.view_invoice_tree"/>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="domain">[('move_type', '=', 'in_invoice')]</field>
+            <field name="context">{'default_move_type': 'in_invoice'}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a vendor bill
+                </p>
+                <p>
+                    Create invoices, register payments and keep track of the discussions with your vendors.
+                </p>
+            </field>
+        </record>
+
+        <record id="account.action_move_in_refund_type" model="ir.actions.act_window">
+            <field name="name">Refund</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">list,kanban,form,pivot,graph</field>
+            <field name="view_id" ref="account.view_invoice_tree"/>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="domain">[('move_type', '=', 'in_refund')]</field>
+            <field name="context">{'default_move_type': 'in_refund'}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a vendor credit note
+                </p>
+                <p>
+                    Note that the easiest way to create a vendor credit note it to do it directly from the vendor bill.
+                </p>
+            </field>
+        </record>
+
+        <record id="account.action_move_out_receipt_type" model="ir.actions.act_window">
+            <field name="name">Receipts</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">list,kanban,form,pivot,graph</field>
+            <field name="view_id" ref="account.view_invoice_tree"/>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="domain">[('move_type', '=', 'out_receipt')]</field>
+            <field name="context">{'default_move_type': 'out_receipt'}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new sales receipt
+                </p>
+                <p>
+                    When the sale receipt is confirmed, you can record the customer
+                    payment related to this sales receipt.
+                </p>
+            </field>
+        </record>
+
+        <record id="account.action_move_in_receipt_type" model="ir.actions.act_window">
+            <field name="name">Receipts</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">list,kanban,form,pivot,graph</field>
+            <field name="view_id" ref="account.view_invoice_tree"/>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="domain">[('move_type', '=', 'in_receipt')]</field>
+            <field name="context">{'default_move_type': 'in_receipt'}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Register a new purchase receipt
+                </p>
+                <p>
+                    When the purchase receipt is confirmed, you can record the
+                    vendor payment related to this purchase receipt.
+                </p>
+            </field>
+        </record>
+
+        <!--<record id="account_invoice_inherit_view_form" model="ir.ui.view">-->
+        <!--<field name="name">account.move.inherit.form.view.report</field>-->
+        <!--<field name="model">account.move</field>-->
+        <!--<field name="inherit_id" ref="report_account_invoice.view_invoice_form_inherit_jar"/>-->
+        <!--<field name="arch" type="xml">-->
+        <!--<xpath expr="//field[@name='x_with_signature']" position="attributes">-->
+        <!--<attribute name="invisible">1</attribute>-->
+        <!--</xpath>-->
+        <!--</field>-->
+        <!--</record>-->
+
+        <!--<record id="vendor_bill_inherit_view_form" model="ir.ui.view">-->
+        <!--<field name="name">account.move.inherit.form.views</field>-->
+        <!--<field name="model">account.move</field>-->
+        <!--<field name="inherit_id" ref="account.view_move_form"/>-->
+        <!--<field name="arch" type="xml">-->
+        <!--<field name="ref" position="after">-->
+        <!--<field name="bill_attachment" required="1"/>-->
+        <!--</field>-->
+        <!--</field>-->
+        <!--</record>-->
+
+    </data>
+</odoo>

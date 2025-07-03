@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_modify,sale.modify,model_sale_modify,,1,1,1,1
+access_sale_modify_history,sale.modify.history,model_sale_modify_history,,1,1,1,1
+access_approval_cancel,approval.cancel,model_approval_cancel,,1,1,1,1
+access_invoice_rejection_history,invoice.rejection.history,model_invoice_rejection_history,,1,1,1,1
+access_choose_delivery_carrier_inventory,access.choose.delivery.carrier,delivery.model_choose_delivery_carrier,sales_team.group_sale_salesman,1,1,1,0
+access_price_approval,access.price.approval,model_price_approval,base.group_user,1,1,1,1

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="sale_order_form_inherit_no_create" model="ir.ui.view">
+            <field name="name">sale.order.inherit.form.views</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="options">{'no_create':True, 'no_edit':True, 'no_open':True}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_invoice_id']" position="attributes">
+                    <attribute name="options">{'no_create':True, 'no_edit':True, 'no_open':True}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_shipping_id']" position="attributes">
+                    <attribute name="options">{'no_create':True, 'no_edit':True, 'no_open':True}</attribute>
+                </xpath>
+                <xpath expr="//notebook//page[@name='order_lines']//field[@name='order_line']//list//field[@name='product_id']" position="attributes">
+                    <attribute name="options">{'no_create':True, 'no_edit':True, 'no_open':True}</attribute>
+                </xpath>
+                <xpath expr="//notebook//page[@name='order_lines']//field[@name='order_line']//list//field[@name='product_template_id']" position="attributes">
+                    <attribute name="options">{'no_create':True, 'no_edit':True, 'no_open':False}</attribute>
+                </xpath>
+                <xpath expr="//notebook//page[@name='order_lines']//field[@name='order_line']//form//field[@name='product_id']" position="attributes">
+                    <attribute name="options">{'no_create':True, 'no_edit':True, 'no_open':True}</attribute>
+                </xpath>
+                <xpath expr="//notebook//page[@name='order_lines']//field[@name='order_line']//kanban//field[@name='product_id']" position="attributes">
+                    <attribute name="options">{'no_create':True, 'no_edit':True, 'no_open':True}</attribute>
+                </xpath>
+                <xpath expr="//notebook//page[@name='order_lines']//field[@name='order_line']//list//field[@name='product_uom']" position="attributes">
+                    <attribute name="options">{'no_create':True, 'no_edit':True, 'no_open':True}</attribute>
+                </xpath>
+                <xpath expr="//notebook//page[@name='other_information']//field[@name='user_id']" position="attributes">
+                    <attribute name="options">{'no_create':True, 'no_edit':True, 'no_open':True}</attribute>
+                </xpath>
+                <xpath expr="//notebook//page[@name='other_information']//field[@name='team_id']" position="attributes">
+                    <attribute name="options">{'no_create':True, 'no_edit':True, 'no_open':True}</attribute>
+                </xpath>
+                <xpath expr="//notebook//page[@name='other_information']//field[@name='campaign_id']" position="attributes">
+                    <attribute name="options">{'no_create':True, 'no_edit':True, 'no_open':True}</attribute>
+                </xpath>
+                <xpath expr="//notebook//page[@name='other_information']//field[@name='medium_id']" position="attributes">
+                    <attribute name="options">{'no_create':True, 'no_edit':True, 'no_open':True}</attribute>
+                </xpath>
+                <xpath expr="//notebook//page[@name='other_information']//field[@name='source_id']" position="attributes">
+                    <attribute name="options">{'no_create':True, 'no_edit':True, 'no_open':True}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="sale_order_form_inherit_no_create_crm" model="ir.ui.view">
+            <field name="name">sale.order.inherit.form.views.crm</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_crm.sale_view_inherit123"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='opportunity_id']" position="attributes">
+                    <attribute name="options">{'no_create':True, 'no_edit':True, 'no_open':True}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

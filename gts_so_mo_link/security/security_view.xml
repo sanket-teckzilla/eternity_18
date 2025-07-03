@@ -1,0 +1,10 @@
+<odoo>
+    <data noupdate="1">
+        <record id="show_bom_structure" model="res.groups">
+            <field name="name">Show BOM Structure</field>
+        </record>
+        <record id="bom_approver" model="res.groups">
+            <field name="name">BOM Approver</field>
+        </record>
+    </data>
+</odoo>

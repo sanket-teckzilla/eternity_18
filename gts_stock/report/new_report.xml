@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="inherited_stock_report_delivery_aggregated_move_lines" inherit_id="stock.stock_report_delivery_aggregated_move_lines">
+        <xpath expr="//tr//td[1]" position="before">
+            <td name="td_index" class="text-center">
+                <span t-esc="line_index + 1"/>
+            </td>
+        </xpath>
+        <xpath expr="//tr//td[2]" position="after">
+            <td>
+                <t t-set="product" t-value="aggregated_lines[line]['product']"/>
+                <span t-esc="product.l10n_in_hsn_code"/>
+            </td>
+        </xpath>
+    </template>
+    <template id="inherited_stock_report_delivery_has_serial_move_line" inherit_id="stock.stock_report_delivery_has_serial_move_line">
+        <xpath expr="//td[1]" position="before">
+            <td name="td_index" class="text-center">
+                <span t-esc="move_line_index + 1"/>
+            </td>
+        </xpath>
+        <xpath expr="//td[2]" position="after">
+            <td>
+                <span t-esc="move_line.product_id.l10n_in_hsn_code"/>
+            </td>
+        </xpath>
+    </template>
+
+    <template id="report_delivery_document_inherit_jar" inherit_id="stock.report_delivery_document">
+        <xpath expr="//t[@t-call='web.external_layout']" position="attributes">
+            <attribute name="t-call">report_custom_layout.external_layout_account_invoice_jar</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('page')]" position="attributes">
+            <attribute name="style">margin-left:5mm;margin-right:5mm;</attribute>
+        </xpath>
+        <xpath expr="//div[name='show_partner']" position="replace">
+            <div class="row mb 16" style="margin-left:2mm;margin-right:2mm;">
+                <div class="col-6" style="font-size:26px;">
+                    <t t-if="o.picking_type_id.warehouse_id.partner_id">
+                        <b>From: </b><br/>
+                        <b><span t-esc="o.picking_type_id.warehouse_id.partner_id.parent_id.name"/></b>
+                        <div t-esc="o.picking_type_id.warehouse_id.partner_id"
+                             t-options="{'widget': 'contact', 'fields': ['address'], 'no_marker': True}"/>
+                        <!--<span t-esc="o.picking_type_id.warehouse_id.partner_id.street"/>-->
+                        <!--<span t-esc="o.picking_type_id.warehouse_id.partner_id.street2"/>-->
+                        <!--<span t-esc="o.picking_type_id.warehouse_id.partner_id.city"/>-->
+                        <!--<span t-esc="o.picking_type_id.warehouse_id.partner_id.state_id.name"/>-->
+                        <!--<span t-esc="o.picking_type_id.warehouse_id.partner_id.zip"/>-->
+                        <!--<span t-esc="o.picking_type_id.warehouse_id.partner_id.country_id.name"/>-->
+                        <t t-if="o.picking_type_id.warehouse_id.partner_id.title">
+                            <span t-esc="o.picking_type_id.warehouse_id.partner_id.title.name"/>
+                        </t> <span t-esc="o.picking_type_id.warehouse_id.partner_id.name"/> - <span t-esc="o.picking_type_id.warehouse_id.partner_id.phone"/>
+                    </t>
+                </div>
+                <div class="col-6" style="font-size:26px;">
+                    <strong>To: </strong>
+                    <t t-if="partner">
+                        <b><div t-esc="partner.display_name"/></b>
+                        <span t-esc="partner.street"/>
+                        <span t-esc="partner.street2"/><br/>
+                        <span t-esc="partner.city"/>
+                        <span t-esc="partner.state_id.name"/>
+                        <span t-esc="partner.zip"/>
+                        <span t-esc="partner.country_id.name"/><br/>
+                        <span t-esc="partner.phone"/>
+                        <!--<div t-esc="partner"-->
+                        <!--t-options="{'widget': 'contact', 'fields': ['address', 'phone'], 'no_marker': True}"/>-->
+                    </t>
+                    <!--<t t-if="partner" name="partner_header">-->
+                    <!--<t t-set="address">-->
+                    <!--<div t-field="partner.parent_id"/>-->
+                    <!--<div t-esc="partner.name"/>-->
+                    <!--<div t-esc="partner"-->
+                    <!--t-options="{'widget': 'contact', 'fields': ['address', 'phone'], 'no_marker': True}"/>-->
+                    <!--</t>-->
+                    <!--</t>-->
+                </div>
+            </div><br/>
+        </xpath>
+
+        <xpath expr="//div[hasclass('page')]/h2" position="replace">
+            <h3>
+                <strong><span t-field="o.name"/></strong>
+            </h3>
+        </xpath>
+
+        <xpath expr="//div[@t-if=&quot;o.origin&quot;]/strong" position="replace">
+            <strong>Origin</strong>
+        </xpath>
+
+        <xpath expr="//div[@name='div_sched_date']/strong" position="replace">
+            <strong>Shipping Date</strong>
+        </xpath>
+
+        <xpath expr="//table[@t-if=&quot;o.state!='done'&quot;]/thead/tr/th" position="before">
+            <th name="th_index" class="text-center" style="width: 8%">SR NO</th>
+        </xpath>
+        <xpath expr="//table[@t-if=&quot;o.state!='done'&quot;]/tbody/tr/td" position="before">
+            <td name="td_index" class="text-center">
+                <span t-esc="move_index + 1"/>
+            </td>
+        </xpath>
+
+        <!--stock move table before done-->
+        <xpath expr="//table[@name='stock_move_table']//tbody//tr//td[2]" position="replace">
+            <td>
+                <p t-if="o.picking_type_code == 'outgoing'">
+                    <t t-if="move.product_id.description_sale">
+                        <span t-esc="move.product_id.name"/><br/>
+                        <span t-esc="move.product_id.description_sale"/>
+                    </t>
+                    <t t-else="">
+                        <span t-field="move.product_id"/><br/>
+                        <span t-field="move.product_id.sudo().description_pickingout"/>
+                    </t>
+                </p>
+                <p t-if="o.picking_type_code == 'incoming'">
+                    <span t-field="move.product_id"/><br/>
+                    <span t-field="move.product_id.sudo().description_pickingin"/>
+                </p>
+            </td>
+        </xpath>
+
+        <!--        Commented while migration -->
+        <!--stock move line table after done-->
+        <!--        <xpath expr="//table[@name='stock_move_line_table']//tbody//tr//td[1]" position="replace">-->
+        <!--            <td>-->
+        <!--                <p t-if="o.picking_type_code == 'outgoing'">-->
+        <!--                    <t t-if="move_line.product_id.description_sale">-->
+        <!--                        <span t-esc="move_line.product_id.name"/><br/>-->
+        <!--                        <span t-esc="move_line.product_id.description_sale"/>-->
+        <!--                    </t>-->
+        <!--                    <t t-else="">-->
+        <!--                        <span t-field="move_line.product_id"/><br/>-->
+        <!--                        <span t-field="move_line.product_id.sudo().description_pickingout"/>-->
+        <!--                    </t>-->
+        <!--                </p>-->
+        <!--                <p t-if="o.picking_type_code == 'incoming'">-->
+        <!--                    <span t-field="move_line.product_id"/><br/>-->
+        <!--                    <span t-field="move_line.product_id.sudo().description_pickingin"/>-->
+        <!--                </p>-->
+        <!--            </td>-->
+        <!--        </xpath>-->
+
+        <!-- HSN Code -->
+        <xpath expr="//table[@t-if=&quot;o.state!='done'&quot;]/thead/tr/th[2]" position="after">
+            <th name="th_hsn_code" class="text-center" style="width: 15%">HSN Code</th>
+        </xpath>
+        <xpath expr="//table[@t-if=&quot;o.state!='done'&quot;]/tbody/tr/td[2]" position="after">
+            <td name="td_hsn_code" class="text-center">
+                <span t-field="move.product_id.l10n_in_hsn_code"/>
+            </td>
+        </xpath>
+
+        <xpath expr="//table[@t-elif=&quot;o.move_line_ids and o.state=='done'&quot;]/thead/tr/th" position="before">
+            <th name="th_index" class="text-center" style="width: 8%">SR NO</th>
+        </xpath>
+<!--        <xpath expr="//table[@t-if=&quot;o.move_line_ids and o.state=='done'&quot;]/tbody//t[@t-if=&quot;o.has_packages&quot;]//t[@t-if=&quot;has_serial_number&quot;]//tr" position="inside">-->
+<!--            <td name="td_index" class="text-center">-->
+<!--                <span t-esc="move_line_index + 1"/>-->
+<!--            </td>-->
+<!--        </xpath>-->
+
+        <!-- HSN Code -->
+        <xpath expr="//table[@t-elif=&quot;o.move_line_ids and o.state=='done'&quot;]/thead/tr/th[2]" position="after">
+            <th name="th_hsn_code" class="text-center" style="width: 15%">HSN Code</th>
+        </xpath>
+<!--        <xpath expr="//table[@t-if=&quot;o.move_line_ids and o.state=='done'&quot;]/tbody//t[@t-if=&quot;o.has_packages&quot;]//t[@t-if=&quot;has_serial_number&quot;]//tr" position="inside">-->
+<!--            <td name="td_hsn_code" class="text-center">-->
+<!--                <span t-field="move_line.product_id.l10n_in_hsn_code"/>-->
+<!--            </td>-->
+<!--        </xpath>-->
+
+
+        <!--<xpath expr="//table[@name='stock_move_line_table']" position="after">-->
+        <!--<br/>-->
+        <!--<t t-if="o.x_with_signature">-->
+        <!--<table class="mt32" width="100%" id="signature_block" style="page-break-inside: avoid;">-->
+        <!--<tr class="text-center">-->
+        <!--<td style="border:hidden;" width="33%"/>-->
+        <!--<td style="border:hidden;" width="33%"/>-->
+        <!--<td style="background-color: white !important; border:hidden;">-->
+        <!--<strong>For <span t-field="o.company_id"/></strong>-->
+        <!--</td>-->
+        <!--</tr>-->
+        <!--<tr class="text-center">-->
+        <!--<td style="border:hidden;">-->
+        <!--&lt;!&ndash; <div class="mt64"><strong>Prepared By</strong></div> &ndash;&gt;-->
+        <!--</td>-->
+        <!--<td style="border:hidden;">-->
+        <!--&lt;!&ndash; <div class="mt64"><strong>Checked By</strong></div> &ndash;&gt;-->
+        <!--</td>-->
+        <!--<td style="background-color: white !important;border:hidden;">-->
+        <!--&lt;!&ndash;<t t-if="o.x_with_signature">&ndash;&gt;-->
+        <!--<img src="/report_custom_layout/static/src/img/seal.jpg" style="max-width: 130px;"/>-->
+        <!--<img src="/report_custom_layout/static/src/img/signature.jpg" style="max-width: 130px;"/>-->
+        <!--&lt;!&ndash;</t>&ndash;&gt;-->
+        <!--<div><strong>Authorized sign &amp; seal</strong></div>-->
+        <!--</td>-->
+        <!--</tr>-->
+        <!--</table>-->
+        <!--</t>-->
+        <!--</xpath>-->
+
+    </template>
+
+    <template id="sale_stock.report_delivery_document_inherit_sale_stock" inherit_id="stock.report_delivery_document">
+        <xpath expr="//div[@name='div_sched_date']" position="after">
+            <!--<div class="row justify-content-end" t-if="o.sudo().sale_id.client_order_ref">-->
+            <t t-if="o.sudo().sale_id.client_order_ref">
+                <div class="col-auto">
+                    <strong>Customer Reference</strong>
+                    <p t-field="o.sudo().sale_id.client_order_ref"/>
+                </div>
+            </t>
+            <!--</div>-->
+        </xpath>
+    </template>
+
+</odoo>
+
+
