@@ -1,0 +1,7 @@
+<odoo>
+
+    <record id="group_gross_profit_on_invoice" model="res.groups">
+        <field name="name">Gross Profit fields on Invoice</field>
+    </record>
+
+</odoo>

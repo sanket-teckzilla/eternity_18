@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <template id="daily_report">
+        <t t-call="web.html_container">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: center;">
+                        <h3>Daily Screen A: <span t-esc="datetime.datetime.now().date().strftime('%d-%m-%Y')"/></h3>
+                    </td>
+                </tr>
+            </table>
+            <!--  Table for creditor and debtor, Age receivable -->
+            <table style="width: 100%; border:1px solid black; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th scope="col" style="border: 1px solid black;">AGE WISE</th>
+                        <th scope="col" style="border: 1px solid black;">DEBTORS</th>
+                        <th scope="col" style="border: 1px solid black;">CREDITORS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-set="age_receivable" t-value="docs.env['account.journal'].get_age_receivable()"/>
+                    <t t-set="age_payable" t-value="docs.env['account.journal'].get_age_payable()"/>
+                    <tr>
+                        <td style="border:1px solid black; text-align: center;">
+                            <span> As of: <span t-esc="datetime.datetime.now().date().strftime('%d-%m-%Y')"/></span>
+                        </td>
+
+                        <!--   Debtors     -->
+                        <td style="border:1px solid black; text-align: center;">
+                            <span><t t-esc="round(age_receivable.get('as_on'),2)"/> </span>
+                        </td>
+
+                        <!--   Creditors     -->
+                        <td style="border:1px solid black; text-align: center;">
+                            <span><t t-esc="round(age_payable.get('as_on'),2)"/> </span>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid black; text-align: center;">
+                            <span>1-30</span>
+                        </td>
+
+                        <!--   Debtors     -->
+                        <td style="border:1px solid black; text-align: center;">
+                            <span><t t-esc="round(age_receivable.get('1-30'),2)"/></span>
+                        </td>
+
+                        <!--   Creditors     -->
+                        <td style="border:1px solid black; text-align: center;">
+                            <span><t t-esc="round(age_payable.get('1-30'),2)"/></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid black; text-align: center;">
+                            <span>31-60</span>
+                        </td>
+
+                        <!--   Debtors     -->
+                        <td style="border:1px solid black; text-align: center;">
+                            <span><t t-esc="round(age_receivable.get('31-60'),2)"/></span>
+                        </td>
+
+                        <!--   Creditors     -->
+                        <td style="border:1px solid black; text-align: center;">
+                            <span><t t-esc="round(age_payable.get('31-60'),2)"/></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid black; text-align: center;">
+                            <span>61-90</span>
+                        </td>
+
+                        <!--   Debtors     -->
+                        <td style="border:1px solid black; text-align: center;">
+                            <span><t t-esc="round(age_receivable.get('61-90'),2)"/></span>
+                        </td>
+
+                        <!--   Creditors     -->
+                        <td style="border:1px solid black; text-align: center;">
+                            <span><t t-esc="round(age_payable.get('61-90'),2)"/></span>
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td style="border:1px solid black; text-align: center;">
+                            <span>91-120</span>
+                        </td>
+
+                        <!--   Debtors     -->
+                        <td style="border:1px solid black; text-align: center;">
+                            <span><t t-esc="round(age_receivable.get('91-120'),2)"/></span>
+                        </td>
+
+                        <!--   Creditors     -->
+                        <td style="border:1px solid black; text-align: center;">
+                            <span><t t-esc="round(age_payable.get('91-120'),2)"/></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid black; text-align: center;">
+                            <span>Older</span>
+                        </td>
+
+                        <!--   Debtors  -->
+                        <td style="border:1px solid black; text-align: center;">
+                            <span><t t-esc="round(age_receivable.get('older'),2)"/></span>
+                        </td>
+
+                        <!--   Creditors     -->
+                        <td style="border:1px solid black; text-align: center;">
+                            <span><t t-esc="round(age_payable.get('older'),2)"/></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- table for payment and bank balance-->
+            <br/>
+            <table style="border-collapse: collapse; width: 100%; border: 1px solid black;">
+                <thead>
+                    <tr>
+                        <th scope="col" style="border: 1px solid black; text-align: center;">BANK DETAILS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <table style="border-collapse: collapse; width: 100%; border: 1px solid black;">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="border: 1px solid black; text-align: center;">BANK NAME</th>
+                                <th scope="col" style="border: 1px solid black; text-align: center;">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs.env['account.journal'].get_bank_data()" t-as="bank_data">
+                                <tr>
+                                    <td style="border-bottom: 1px solid; border-right: 1px solid">
+                                        <strong>
+                                            <span t-esc="bank_data[0]"/>
+                                        </strong>
+                                    </td>
+                                    <td style="border-bottom: 1px solid">
+                                             <strong>
+                                              <span t-esc="bank_data[1]" t-options='{"widget": "monetary", "display_currency": docs.currency_id}'/>
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </tbody>
+            </table>
+            <br/>
+            <table style="border-collapse: collapse; width: 100%; border: 1px solid black;">
+                <thead>
+                    <tr>
+                        <td style="text-align: left;">
+                            <h3>DASHBOARD</h3>
+                        </td>
+                        <td style="text-align: right;">
+                            <h3>Company As On :
+                                <span/>
+                            </h3>
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+            <div style="float: left; width: 50%;">
+                <table style="border-collapse: collapse; width:100%; border: 1px solid black;">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="border: 1px solid black;">Top 5 Customers</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs.env['account.move'].get_top_customer()" t-as="customer">
+                            <tr>
+                                <td>
+                                    <div style="float: left; width: 70%; text-align: left;">
+                                        <t t-esc="customer[0]"/>
+                                    </div>
+                                    <div style="float: right; text-align: right; width: 30%;">
+                                       <t t-esc="customer[1]" t-options='{"widget": "monetary", "display_currency": docs.currency_id}'/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </t>
+                        </tbody>
+                    </table>
+                <table style="border-collapse: collapse; width:100%; border: 1px solid black;">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="border: 1px solid black;">Top 5 Products (Sold In Volume)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs.env['account.move.line'].get_top_sold_prd_vol()" t-as="top_sold_prd">
+                        <tr>
+                            <td>
+                                <div style="float: left; width: 70%; text-align: left;">
+                                    <t t-esc="top_sold_prd[0]"/>
+                                </div>
+                                <div style="float: right; text-align: right; width: 30%;">
+                                   <t t-esc="top_sold_prd[1]" t-options='{"widget": "monetary", "display_currency": docs.currency_id}'/>
+                                </div>
+                            </td>
+                        </tr>
+                    </t>
+                    </tbody>
+                </table>
+                <table style="border-collapse: collapse; width:100%; border: 1px solid black;">
+                <thead>
+                    <tr>
+                        <th scope="col" style="border: 1px solid black;">Top 5 Products (Sold In Value)</th>
+                    </tr>
+                </thead>
+                <tbody style="height: 60px;">
+                    <t t-foreach="docs.env['account.move.line'].get_top_sold_prd_val()" t-as="top_sold_prd_val">
+                            <tr style="line-height: 20px;">
+                                <td>
+                                    <div style="float: left; width: 70%; text-align: left;">
+                                        <t t-esc="top_sold_prd_val[0]" />
+                                    </div>
+                                    <div style="float: right; text-align: right; width: 30%;">
+                                       <t t-esc="top_sold_prd_val[1]" t-options='{"widget": "monetary", "display_currency": docs.currency_id}'/>
+                                    </div>
+                                </td>
+                            </tr>
+                    </t>
+                </tbody>
+            </table>
+                <table style="border-collapse: collapse; width:100%; border: 1px solid black;">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="border: 1px solid black;">Pending Sale Orders (In Value)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <div style="float: left; width: 70%; text-align: left;">
+                                    <strong>Total</strong>
+                                </div>
+                                <div style="float: right; text-align: right; width: 30%;">
+                                   <t t-esc="sum(docs.env['sale.order'].search([('state', 'in', ['draft', 'sent'])]).mapped('amount_untaxed'))" t-options='{"widget": "monetary", "display_currency": docs.currency_id}'/>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table style="border-collapse: collapse; width:100%; border: 1px solid black;">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="border: 1px solid black;">Top 10 Customers (O/S Receivables)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs.env['res.partner'].top_os_customer()" t-as="os_customer">
+                            <tr>
+                                <td>
+                                    <div style="float: left; width: 70%; text-align: left;">
+                                        <t t-esc="os_customer.name"/>
+                                    </div>
+                                    <div style="float: right; text-align: right; width: 30%;">
+                                       <t t-esc="os_customer.total_due" t-options='{"widget": "monetary", "display_currency": docs.currency_id}'/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+                <table style="border-collapse: collapse; width:100%; border: 1px solid black;">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="border: 1px solid black;">Top 10 Customers (OverDue Bills)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs.env['res.partner'].top_over_due_customer()" t-as="over_due_customer">
+                            <tr>
+                                <td>
+                                    <div style="float: left; width: 70%; text-align: left;">
+                                        <t t-esc="over_due_customer.name"/>
+                                    </div>
+                                    <div style="float: right; text-align: right; width: 30%;">
+                                       <t t-esc="over_due_customer.total_overdue" t-options='{"widget": "monetary", "display_currency": docs.currency_id}'/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+            <div style="float: right; width: 50%;">
+                <table style="border-collapse: collapse; width:100%; border: 1px solid black;">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="border:1px solid black;">Top 5 Suppliers</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs.env['account.move'].get_top_supplier()" t-as="supplier">
+                            <tr>
+                                <td>
+                                    <div style="float: left; width: 70%; text-align: left;">
+                                        <t t-esc="supplier[0]"/>
+                                    </div>
+                                    <div style="float: right; width: 30%; text-align: right;">
+                                        <t t-esc="supplier[1]" t-options='{"widget": "monetary", "display_currency": docs.currency_id}'/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+                <table style="border-collapse: collapse; width:100%; border: 1px solid black;">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="border:1px solid black;">Top 5 Product (Purchase In Volume)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs.env['account.move.line'].get_top_purchase_prd_vol()" t-as="top_purchase_prd">
+                            <tr>
+                                <td>
+                                    <div style="float: left; width: 70%; text-align: left;">
+                                        <t t-esc="top_purchase_prd[0]"/>
+                                    </div>
+                                    <div style="float: right; width: 30%; text-align: right;">
+                                        <t t-esc="top_purchase_prd[1]" t-options='{"widget": "monetary", "display_currency": docs.currency_id}'/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+                <table style="border-collapse: collapse; width:100%; border: 1px solid black;">
+                <thead>
+                    <tr>
+                        <th scope="col" style="border:1px solid black;">Top 5 Product (Purchase In Value)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="docs.env['account.move.line'].get_top_purchase_prd_value()" t-as="top_purchase_prd_val">
+                        <tr>
+                            <td>
+                                <div style="float: left; width: 70%; text-align: left;">
+                                    <t t-esc="top_purchase_prd_val[0]"/>
+                                </div>
+                                <div style="float: right; width: 30%; text-align: right;">
+                                    <t t-esc="top_purchase_prd_val[1]" t-options='{"widget": "monetary", "display_currency": docs.currency_id}'/>
+                                </div>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+                <table style="border-collapse: collapse; width:100%; border: 1px solid black;">
+                <thead>
+                    <tr>
+                        <th scope="col" style="border:1px solid black;">Pending Purchase Order (In Value)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td>
+                                <div style="float: left; width: 70%; text-align: left;">
+                                    <strong>Total</strong>
+                                </div>
+                                <div style="float: right; width: 30%; text-align: right;">
+                                    <t t-esc="sum(docs.env['purchase.order'].search([('state', 'in', ['draft', 'sent'])]).mapped('amount_untaxed'))" t-options='{"widget": "monetary", "display_currency": docs.currency_id}'/>
+                                </div>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+                <table style="border-collapse: collapse; width:100%; border: 1px solid black;">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="border:1px solid black;">Top 10 Suppliers (O/S Payable)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs.env['res.partner'].top_os_supplier()" t-as="os_supplier">
+                            <tr>
+                                <td>
+                                    <div style="float: left; width: 70%; text-align: left;">
+                                        <t t-esc="os_supplier.name"/>
+                                    </div>
+                                    <div style="float: right; width: 30%; text-align: right;">
+                                        <t t-esc="os_supplier.total_due" t-options='{"widget": "monetary", "display_currency": docs.currency_id}'/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+                 <table style="border-collapse: collapse; width:100%; border: 1px solid black;">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="border:1px solid black;">Top 10 Suppliers (OverDue Bills)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs.env['res.partner'].top_over_due_supplier()" t-as="over_due_supplier">
+                            <tr>
+                                <td>
+                                    <div style="float: left; width: 70%; text-align: left;">
+                                        <t t-esc="over_due_supplier.name"/>
+                                    </div>
+                                    <div style="float: right; width: 30%; text-align: right;">
+                                        <t t-esc="over_due_supplier.total_overdue" t-options='{"widget": "monetary", "display_currency": docs.currency_id}'/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>

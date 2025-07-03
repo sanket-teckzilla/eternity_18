@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="account_tax_inherit_view_form" model="ir.ui.view">
+            <field name="name">account.tax.inherit.form.views</field>
+            <field name="model">account.tax</field>
+            <field name="inherit_id" ref="l10n_in.view_tax_form_inherit_l10n_in"/>
+            <field name="arch" type="xml">
+                <field name="l10n_in_reverse_charge" position="after">
+                    <field name="account_id" invisible="l10n_in_reverse_charge == False or
+                                                        type_tax_use != 'purchase'"
+                                                        required="l10n_in_reverse_charge == True and type_tax_use == 'purchase'"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

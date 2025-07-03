@@ -1,0 +1,33 @@
+{
+    'name': 'Sale',
+    'version': '1.0',
+    'summary': """ Sale """,
+    'description': """ Sale """,
+    'author': 'GeoTechnosoft',
+    'license': 'AGPL-3',
+    'website': 'http://www.geotechnosoft.com',
+    'category': '',
+    'depends': ['base', 'sale', 'account', 'contacts', 'l10n_in_sale', 'sale_management', 'sales_team', 'sale_crm',
+                'mail', 'purchase','sale_margin', 'gts_so_mo_link', 'stock', 'report_custom_layout', ],
+    'data': [
+        'security/ir.model.access.csv',
+        'security/security_view.xml',
+        'data/mail_data.xml',
+        'wizard/request_modify_view.xml',
+        'wizard/cancel_wizard_view.xml',
+        'wizard/price_approval_view.xml',
+        'views/sale_view.xml',
+        'views/pending_approval.xml',
+        'views/email_compose_view.xml',
+        'template/email_templates.xml',
+        'template/invoice_create_approval_view.xml',
+        # 'report/report_sale_without_header.xml',
+        'views/users_view.xml',
+        'report/report_view.xml',
+        'report/price_request_report.xml',
+    ],
+
+    'installable': True,
+    'application': True,
+
+}

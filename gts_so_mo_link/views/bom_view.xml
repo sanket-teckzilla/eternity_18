@@ -1,0 +1,15 @@
+<odoo>
+
+    <record id="mrp_bom_view_inherit_production" model="ir.ui.view">
+        <field name="name">mrp.bom.form.inherit.plan</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+<!--            <xpath expr="//sheet//div[@name='button_box']//button[@name='464']" position="attributes">-->
+            <xpath expr="//sheet//div[@name='button_box']//button[hasclass('oe_stat_button')]" position="attributes">
+                <attribute name="groups">gts_so_mo_link.show_bom_structure</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

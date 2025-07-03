@@ -1,0 +1,48 @@
+<odoo>
+
+    <record id="sale_order_view_inherit_production" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.plan</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <!--            <xpath expr="//button[@name='action_view_invoice']" position="after">-->
+            <!--                <field name="production_ids" invisible="1"/>-->
+            <!--                <button type="object"-->
+            <!--                        name="view_production_orders"-->
+            <!--                        class="oe_stat_button"-->
+            <!--                        icon="fa-dropbox"-->
+            <!--                        attrs="{'invisible': [('production_count', '=', 0)]}">-->
+            <!--                    <field name="production_count" widget="statinfo" string="Manufacturing Order(s)"/>-->
+            <!--                </button>-->
+            <!--            </xpath>-->
+<!--             <xpath expr="//field[@name='order_line']/tree//field[@name='price_unit']" position="before">-->
+<!--                <field name="del_date"/>-->
+<!--            </xpath>-->
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="residual_amount" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="apply_invoice_approval" invisible="1"/>
+                <field name="sent_for_invoice_approval" invisible="1"/>
+                <field name="invoice_creation_approved" invisible="1"/>
+                <field name="invoice_created" invisible="1"/>
+                <field name="residual_amount" invisible="1"/>
+                <field name="categ_id" widget="many2many_tags"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_sales_order_filter_inherit" model="ir.ui.view">
+        <field name="name">sale.order.list.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="priority" eval="15"/>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="categ_id" />
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+        <record id="paperformat_custom_qrcode" model="report.paperformat">
+            <field name="name">Custom Paperformat QR Code</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">66</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">20</field>
+            <field name="margin_right">20</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">165</field>
+            <field name="dpi">102</field>
+        </record>
+
+<!--        <record id="paperformat_custom_label" model="report.paperformat">-->
+<!--            <field name="name">Custom Paperformat Label</field>-->
+<!--            <field name="default" eval="True"/>-->
+<!--            <field name="format">custom</field>-->
+<!--            <field name="page_height">50</field>-->
+<!--            <field name="page_width">50</field>-->
+<!--            <field name="orientation">Portrait</field>-->
+<!--            <field name="margin_top">10</field>-->
+<!--            <field name="margin_bottom">0</field>-->
+<!--            <field name="margin_left">25</field>-->
+<!--            <field name="margin_right">25</field>-->
+<!--            <field name="header_line" eval="False"/>-->
+<!--            <field name="header_spacing">165</field>-->
+<!--            <field name="dpi">105</field>-->
+<!--        </record>-->
+
+
+
+       <record id="paperformat_custom_label" model="report.paperformat">
+            <field name="name">Custom Paperformat Label</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">50</field>
+            <field name="page_width">140</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">10</field>
+            <field name="dpi">100</field>
+        </record>
+
+        <record id="warranty_custom_paperformat" model="report.paperformat">
+            <field name="name">Custom Paperformat Warranty</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">50</field>
+            <field name="page_width">100</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">2</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">118</field>
+        </record>
+
+
+
+        <record id="paperformat_custom_test_certificate" model="report.paperformat">
+            <field name="name">A4 - Custom Paperformat Test Certificate</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">30</field>
+            <field name="margin_bottom">20</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">30</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="paperformat_custom" model="report.paperformat">
+            <field name="name">A4 - Custom Paperformat</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">30</field>
+            <field name="margin_bottom">15</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">30</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <template id="external_layout_standard_account_invoice_jar">
+            <t t-set="article_class" t-value=""/>
+            <t t-set="header_class" t-value=""/>
+            <t t-set="footer_class" t-value=""/>
+
+            <t t-if="company.external_report_layout_id and 'boxed' in company.external_report_layout_id.key">
+                <t t-set="article_class" t-value="'article o_report_layout_boxed'"/>
+                <t t-set="header_class" t-value="'header o_boxed_header'"/>
+                <t t-set="footer_class" t-value="'footer o_boxed_footer'"/>
+            </t>
+            <t t-if="company.external_report_layout_id and 'background' in company.external_report_layout_id.key">
+                <t t-set="article_class" t-value="'article o_report_layout_background'"/>
+                <t t-set="header_class" t-value="'header o_background_header'"/>
+                <t t-set="footer_class" t-value="'footer o_background_footer'"/>
+            </t>
+            <t t-if="not company.external_report_layout_id or 'clean' in company.external_report_layout_id.key">
+                <t t-set="article_class" t-value="'article o_report_layout_clean'"/>
+                <t t-set="header_class" t-value="'header o_clean_header'"/>
+                <t t-set="footer_class" t-value="'footer o_clean_footer'"/>
+            </t>
+            <t t-if="not company.external_report_layout_id or 'standard' in company.external_report_layout_id.key">
+                <t t-set="article_class" t-value="'article o_report_layout_standard'"/>
+                <t t-set="header_class" t-value="'header'"/>
+                <t t-set="footer_class" t-value="'footer o_standard_footer'"/>
+            </t>
+
+            <div t-att-class="header_class" style="border-bottom: hidden;margin-top:0;">
+                <table width="120%" style="margin-left:-5mm;">
+                    <tr>
+                        <td style="height:25px; background-color: rgba(124, 186, 86, 1);color: rgba(124, 186, 86, 1);font-size: 1px;">
+                            .
+                        </td>
+                    </tr>
+                </table>
+                <div class="row text-muted" style="margin-left:5mm;margin-right:5mm;font-size:17px;">
+                    <div class="col-4">
+                        <strong>
+                            <span t-field="company.name"/>
+                        </strong>
+                        <br/>
+                        <span t-field="company.street"/>
+                        <br/>
+                        <span t-field="company.street2"/>
+                        <span t-field="company.city"/>
+                        <span t-field="company.zip"/>
+                    </div>
+                    <div class="col-4">
+                        <div>
+                            <!-- <i class="fa fa-phone"/> -->
+                            <img src="/report_custom_layout/static/src/img/ico_call.png" style="max-width: 20px;"/>
+                            <span class="mr8" t-field="company.phone"/>
+                        </div>
+                        <div>
+                            <!-- <i class="fa fa-envelope"/> -->
+                            <img src="/report_custom_layout/static/src/img/ica_mail.png" style="max-width: 20px;"/>
+                            <span class="mr8" t-field="company.email"/>
+                        </div>
+                        <div>
+                            <!-- <i class="fa fa-globe"/> -->
+                            <img src="/report_custom_layout/static/src/img/ico_website.png" style="max-width: 20px;"/>
+                            <t t-if="company.website">
+                                <span style="color: rgba(124, 186, 86, 1);" t-esc="company.website.replace('http://','')"/>
+                            </t>
+                        </div>
+                    </div>
+                    <div class="col-4" style="margin-top: 15px;">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo" width="250px;"
+                             style="margin-top:8px;"/>
+                        <!--<img src="/x_web/static/src/img/eternity_tech.logo" width="220px;" height="55px;" style="margin-top:8px;"/>-->
+                    </div>
+                </div>
+            </div>
+
+            <div t-att-class="article_class" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                 t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <t t-call="web.address_layout"/>
+                <t t-raw="0"/>
+            </div>
+
+            <div t-att-class="footer_class" style="border-top: hidden;">
+                <img src="/report_custom_layout/static/src/img/logo 2.jpg" style="width:100%; height:40px;"/>
+            </div>
+    </template>
+
+
+    <template id="external_layout_account_invoice_jar">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+
+        <t t-call="report_custom_layout.external_layout_standard_account_invoice_jar">
+            <t t-raw="0"/>
+        </t>
+    </template>
+
+</odoo>

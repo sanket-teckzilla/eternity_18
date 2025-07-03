@@ -1,0 +1,126 @@
+<odoo>
+    <record id="invoice_create_template_id" model="mail.template">
+        <field name="name">Approval Invoice Creation: (${object.name})</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="auto_delete" eval="False"/>
+        <field name="subject">Request for Invoice Creation (${object.name})</field>
+        <field name="auto_delete" eval="False"/>
+        <field name="body_html"><![CDATA[
+            <h4><p>Dear Team,</p><br/>
+            <p>${object.mail_user_id.name} has requested to Create Invoice for Order <b>${object.name}</b>.</p><br/>
+
+            <b><p>Customer Name:</b> ${object.partner_id.display_name}</p>
+            <b><p>Order Value:</b>  ${format_amount(object.amount_untaxed, object.currency_id)}</p>
+            <b><p>Order Date:</b> ${object.date_order.strftime('%d/%m/%Y')}</p></h4><br/>
+
+            <b><h4><p>Total Overdue Amount:</b> ${format_amount(object.residual_amount, object.currency_id)}</p></h4><br/>
+
+            <div class="page">
+                 <p><h3><b>Overdue Invoice Details:</b></h3></p>
+                   <table border="4" cellspacing="1" cellpadding="4" style="margin-top:15px;color:#666666; width:90%;">
+                        <thead>
+                            <tr style="color:#FFFFFF; font-size:14px; background-color:#9A6C8E;">
+<!--                                <td style="width:5%;text-align:center;">-->
+<!--                                    <strong>Sr. No.</strong>-->
+<!--                                </td>-->
+                                <td style="width:5%;text-align:center;">
+                                    <strong>Invoice No.</strong>
+                                </td>
+                                <td style="width:5%;text-align:center;">
+                                    <strong>Invoice Date</strong>
+                                </td>
+                                <td style="width:5%;text-align:center;">
+                                    <strong>Due Date</strong>
+                                </td>
+                                <td style="width:5%;text-align:center;">
+                                    <strong>Untaxed Amount</strong>
+                                </td>
+                                <td style="width:5%;text-align:center;">
+                                    <strong>Tax Amount</strong>
+                                </td>
+                                <td style="width:5%;text-align:center;">
+                                    <strong>Total Amount</strong>
+                                </td>
+                                <td style="width:5%;text-align:center;">
+                                    <strong>Amount Due</strong>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+<!--                            <t t-set="i" t-value="1"/>-->
+                            % for line in object.get_overdue_invoices():
+                              <tr style="font-size:14px;">
+<!--                                    <td align="center">-->
+<!--                                        <span t-esc="i">-->
+<!--                                        <t t-set="i" t-value="i+1"/>-->
+<!--                                    </td>-->
+                                    <td align="center">${line.name}</td>
+                                    <td align="center">${line.invoice_date.strftime('%d/%m/%Y')}</td>
+                                    <td align="center">${line.invoice_date_due.strftime('%d/%m/%Y')}</td>
+                                    <td align="right">${format_amount(line.amount_untaxed_signed, object.currency_id)}</td>
+                                    <td align="right">${format_amount(line.amount_tax_signed, object.currency_id)}</td>
+                                    <td align="right">${format_amount(line.amount_total_signed, object.currency_id)}</td>
+                                    <td align="right">${format_amount(line.amount_residual_signed, object.currency_id)}</td>
+                              </tr>
+                            % endfor
+                        </tbody>
+                   </table>
+                </div>
+                <br/>
+
+
+            <h4><p>Click on the link below to view order details.</p></h4><br/>
+            <p>
+            <a href="_sales_url" style="background-color: #9E588B; margin-top: 10px; padding: 10px;
+            text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;">View Order</a>
+            </p><br/>
+
+            <h4><p>Thank You</p></h4>
+            ]]>
+        </field>
+    </record>
+
+
+    <record id="invoice_create_approve_template_id" model="mail.template">
+        <field name="name">Approved for Invoice Creation: (${object.name})</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="auto_delete" eval="False"/>
+        <field name="subject">Invoice Creation Approved (${object.name})</field>
+        <field name="auto_delete" eval="False"/>
+        <field name="body_html"><![CDATA[
+             <p>Dear ${object.user_id.partner_id.name},</p><br/>
+            <p> Invoice creation request for Order <b>${object.name}</b> has been approved.</p>
+
+            <p>Please click on the link below to Create Invoice.</p><br/>
+            <p> <a href="_sales_url" style="background-color: #9E588B; margin-top: 10px; padding: 10px;
+            text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;">View</a>
+            </p><br/>
+
+            <p>Thank You</p>
+            ]]>
+        </field>
+    </record>
+
+
+    <record id="invoice_reject_template_id" model="mail.template">
+        <field name="name">Reject To Invoice Creation: (${object.name})</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="auto_delete" eval="False"/>
+        <field name="subject">Invoice Creation Rejected (${object.name})</field>
+        <field name="auto_delete" eval="False"/>
+        <field name="body_html"><![CDATA[
+             <p>Dear ${object.user_id.partner_id.name},</p><br/>
+            <p> Invoice creation for Order <b>${object.name}</b> has been rejected due to the following reason: </p>
+
+            <p> <b>Rejection Reason:</b> ${object.cancel_reason}</p>
+
+            <p>Please click on the link below to view Order.</p><br/>
+            <p> <a href="_sales_url" style="background-color: #9E588B; margin-top: 10px; padding: 10px;
+            text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;">View</a>
+            </p><br/>
+
+            <p>Thank You</p>
+            ]]>
+        </field>
+    </record>
+</odoo>

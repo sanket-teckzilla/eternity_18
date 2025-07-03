@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="update_cost_view" model="ir.ui.view">
+        <field name="name">update.product.cost</field>
+        <field name="model">update.cost</field>
+        <field name="arch" type="xml">
+            <form string="Update Product Cost">
+                <group>
+                    <field name="upload_file"/>
+                </group>
+                <footer>
+                    <button name="update_cost" string="UPDATE" type="object" class="oe_highlight" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_update_cost" model="ir.actions.act_window">
+        <field name="name">Update Product Cost</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">update.cost</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_view_types">list</field>
+    </record>
+
+    <menuitem id="update_cost_menu" name="Update Cost" action="action_update_cost" parent="stock.menu_stock_warehouse_mgmt"/>
+</odoo>

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_purchaseorder_document_inherit_jar" inherit_id="purchase.report_purchaseorder_document">
+        <xpath expr="//t[@t-call='web.external_layout']" position="attributes">
+            <attribute name="t-call">report_custom_layout.external_layout_account_invoice_jar</attribute>
+        </xpath>
+
+        <xpath expr="//t[@t-set='address']" position="replace"/>
+
+        <xpath expr="//t[@t-set='layout_document_title']" position="before">
+            <div class="row">
+                <div class="col-4">
+                    <strong>Supplier Address:</strong>
+                    <div t-field="o.partner_id.parent_id"/>
+                    <div t-field="o.partner_id.name"/>
+                    <div t-field="o.partner_id.street"/>
+                    <div t-field="o.partner_id.street2"/>
+                    <span t-field="o.partner_id.city"/>,
+                    <span t-field="o.partner_id.zip"/><br/>
+                    <span t-field="o.partner_id.state_id.name"/>
+                    <span t-field="o.partner_id.state_id.code"/>,
+                    <span t-field="o.partner_id.country_id"/>
+                    <div t-if="o.partner_id.phone"><i class="fa fa-phone"/><span class="ml-2" t-field="o.partner_id.phone"/></div>
+                    <!-- <div t-field="o.partner_id" t-options="{'widget': 'contact', 'fields': ['address', 'phone'], 'no_marker': True, 'phone_icons': True}"/> -->
+                    <p t-if="o.partner_id.vat"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="o.partner_id.vat"/></p>
+                </div>
+                <div class="col-4">
+                    <strong>Shipping address:</strong>
+                    <t t-if="o.dest_address_id">
+                        <div t-field="o.dest_address_id.parent_id"/>
+                        <div t-field="o.dest_address_id.name"/>
+                        <div t-field="o.dest_address_id.street"/>
+                        <div t-field="o.dest_address_id.street2"/>
+                        <span t-field="o.dest_address_id.city"/>,
+                        <span t-field="o.dest_address_id.zip"/><br/>
+                        <span t-field="o.dest_address_id.state_id.name"/>
+                        <span t-field="o.dest_address_id.state_id.code"/>,
+                        <span t-field="o.dest_address_id.country_id"/>
+                        <div t-if="o.dest_address_id.phone"><i class="fa fa-phone"/><span class="ml-2" t-field="o.dest_address_id.phone"/></div>
+                        <!-- <div t-field="o.dest_address_id" t-options="{'widget': 'contact', 'fields': ['address', 'phone'], 'no_marker': True, 'phone_icons': True}"/> -->
+
+                    </t>
+                    <t t-esls="">
+                        <div t-if="o.picking_type_id and o.picking_type_id.warehouse_id">
+                            <div t-field="o.picking_type_id.warehouse_id.partner_id.parent_id"/>
+                            <div t-field="o.picking_type_id.warehouse_id.partner_id.name"/>
+                            <div t-field="o.picking_type_id.warehouse_id.partner_id.street"/>
+                            <div t-field="o.picking_type_id.warehouse_id.partner_id.street2"/>
+                            <span t-field="o.picking_type_id.warehouse_id.partner_id.city"/>,
+                            <span t-field="o.picking_type_id.warehouse_id.partner_id.zip"/><br/>
+                            <span t-field="o.picking_type_id.warehouse_id.partner_id.state_id.name"/>
+                            <span t-field="o.picking_type_id.warehouse_id.partner_id.state_id.code"/>,
+                            <span t-field="o.picking_type_id.warehouse_id.partner_id.country_id"/>
+                            <div t-if="o.picking_type_id.warehouse_id.partner_id.phone"><i class="fa fa-phone"/><span class="ml-2" t-field="o.picking_type_id.warehouse_id.partner_id.phone"/></div>
+                            <!-- <div t-field="o.picking_type_id.warehouse_id.partner_id" t-options="{'widget': 'contact', 'fields': ['address', 'phone'], 'no_marker': True, 'phone_icons': True}"/> -->
+                            <p t-if="o.picking_type_id.warehouse_id.partner_id.vat"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="o.picking_type_id.warehouse_id.partner_id.vat"/></p>
+                        </div>
+                    </t>
+                </div>
+                <div class="col-4">
+                    <strong>Billing Address:</strong>
+                    <div t-field="o.company_id.partner_id.parent_id"/>
+                    <div t-field="o.company_id.partner_id.name"/>
+                    <div t-field="o.company_id.partner_id.street"/>
+                    <div t-field="o.company_id.partner_id.street2"/>
+                    <span t-field="o.company_id.partner_id.city"/>,
+                    <span t-field="o.company_id.partner_id.zip"/><br/>
+                    <span t-field="o.company_id.partner_id.state_id.name"/>
+                    <span t-field="o.company_id.partner_id.state_id.code"/>,
+                    <span t-field="o.company_id.partner_id.country_id"/>
+                    <div t-if="o.company_id.partner_id.phone"><i class="fa fa-phone"/><span class="ml-2" t-field="o.company_id.partner_id.phone"/></div>
+                    <!-- <div t-field="o.company_id.partner_id" t-options="{'widget': 'contact', 'fields': ['address', 'phone'], 'no_marker': True, 'phone_icons': True}"/> -->
+                    <p t-if="o.company_id.partner_id.vat"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="o.company_id.partner_id.vat"/></p>
+                </div>
+            </div>
+            <br/>
+        </xpath>
+
+<!--        <h2 t-if="o.state in ['draft']" position="attributes">-->
+<!--            <attribute name="class">mt16</attribute>-->
+<!--        </h2>-->
+
+<!--        <h2 t-if="o.state in ['sent', 'to approve']" position="attributes">-->
+<!--            <attribute name="class">mt16</attribute>-->
+<!--        </h2>-->
+
+<!--        <h2 t-if="o.state in ['purchase', 'done']" position="attributes">-->
+<!--            <attribute name="class">mt16</attribute>-->
+<!--        </h2>-->
+
+<!--        <h2 t-if="o.state == 'cancel'" position="attributes">-->
+<!--            <attribute name="class">mt16</attribute>-->
+<!--        </h2>-->
+
+        <xpath expr="//div[@id='informations']" position="replace">
+            <div id="informations">
+                <div class="row mt16 mb16">
+                    <div class="col-4 m-2">
+                        <strong>Order Date</strong>
+                        <p t-field="o.date_order" class="m-0" t-options="{'widget': 'date'}"/>
+                    </div>
+                    <div class="col-4 m-2">
+                        <strong>Supplier Quotation Details</strong>
+                        <p t-field="o.partner_ref" class="m-0"/>
+                    </div>
+                    <div class="col-4 m-2">
+                        <strong>Incoterms</strong>
+                        <p t-field="o.incoterm_id" class="m-0"/>
+                    </div>
+                </div>
+
+                <div class="row mb16">
+                    <div class="col-4 m-2">
+                        <strong>Purchase Representative</strong>
+                        <p t-field="o.user_id" class="m-0"/>
+                    </div>
+                    <div class="col-4 m-2">
+                        <strong>Payment Terms</strong>
+                        <p t-field="o.payment_term_id" class="m-0"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+
+        <xpath expr="//table[hasclass('o_main_table')]" position="replace">
+            <table class="table table-borderless table-sm o_main_table">
+                <thead>
+                    <tr>
+                        <th name="th_index" class="text-center" style="width: 4%">S.NO.</th>
+                        <th class="text-center"><strong>Description</strong></th>
+                        <th name="hsn_code" class="text-center">HSN code</th>
+                        <th class="text-center" style="width: 4%"><strong>Delivery Date</strong></th>
+                        <th class="text-center"><strong>Qty</strong></th>
+                        <th class="text-center"><strong>Unit Price</strong></th>
+                        <th class="text-center"><strong>Taxes</strong></th>
+                        <th class="text-center"><strong>Amount</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-set="new_index" t-value="0"/>
+                    <t t-foreach="o.order_line" t-as="line">
+                        <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+                            <t t-if="not line.display_type">
+                                <td name="td_index" class="text-center">
+                                    <t t-if="line.display_type != 'line_note' or line.display_type != 'line_section'">
+                                        <t t-set="new_index" t-value="new_index+1"/>
+                                    </t>
+                                    <span t-esc="new_index"/>
+                                    <!--<span t-esc="line_index + 1"/>-->
+                                </td>
+                                <td >
+                                     <span t-field="line.name"/>
+                                    <!-- <div t-field="line.product_id.name"/> -->
+                                    <!-- <div t-field="line.product_id.default_code"/> -->
+                                    <!--<div t-field="line.product_id.description_purchase"/>-->
+                                </td>
+                                <td name="td_hsn_code" class="text-center">
+                                    <span t-field="line.product_id.l10n_in_hsn_code"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="line.date_planned" t-options="{'widget': 'date'}"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="line.product_qty"/>
+                                    <span t-field="line.product_uom.name" groups="uom.group_uom"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="line.price_unit"/>
+                                </td>
+                                <td class="text-center">
+                                    <t t-foreach="line.get_tax_list()" t-as="tax_line">
+                                        <span t-esc="tax_line.description or tax_line.name"/><br/>
+                                    </t>
+<!--                                    <span t-esc="', '.join(map(lambda x: x.name, line.taxes_id))"/>-->
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="line.price_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+                                </td>
+                            </t>
+                            <t t-if="line.display_type == 'line_section'">
+                                <td colspan="99" id="section" class="text-center">
+                                    <span t-field="line.name"/>
+                                </td>
+                                <t t-set="current_section" t-value="line"/>
+                                <t t-set="current_subtotal" t-value="0"/>
+                            </t>
+                            <t t-if="line.display_type == 'line_note'">
+                                <td colspan="99" id="note" class="text-center">
+                                    <span t-field="line.name"/>
+                                </td>
+                            </t>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </xpath>
+
+        <xpath expr="//div[@id='total']" position="replace">
+            <div id="total" class="row justify-content-end">
+                <div class="col-4">
+                    <table class="table table-sm">
+                        <tr class="border-black">
+                            <td class="text-uppercase"><strong>Subtotal</strong></td>
+                            <td class="text-center">
+                                <span t-field="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Taxes</td>
+                            <td class="text-center">
+                                <span t-field="o.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+                            </td>
+                        </tr>
+                        <tr class="border-black o_total">
+                            <td class="text-uppercase"><strong>Total</strong></td>
+                            <td class="text-center">
+                                <span t-field="o.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </xpath>
+
+        <xpath expr="//p[@t-field='o.notes']" position="replace">
+            <p t-if="o.state not in ['draft', 'sent']" t-field="o.notes"/>
+            <table class="mt32" width="100%" id="signature_block" style="page-break-inside: avoid;">
+                <t t-if="o.x_with_signature">
+                <tr class="text-center">
+                    <td style="border:hidden;" width="33%"/>
+                    <td style="border:hidden;" width="33%"/>
+                    <td style="background-color: white !important; border:hidden;">
+                        <strong>For <span t-field="o.company_id"/></strong>
+                    </td>
+                </tr>
+                <tr class="text-center">
+                    <td style="border:hidden;">
+                        <!-- <div class="mt64"><strong>Prepared By</strong></div> -->
+                    </td>
+                    <td style="border:hidden;">
+                        <!-- <div class="mt64"><strong>Checked By</strong></div> -->
+                    </td>
+                    <td style="background-color: white !important;border:hidden;">
+                        <t t-if="o.x_with_signature">
+                            <img src="/report_custom_layout/static/src/img/seal.jpg" style="max-width: 130px;"/>
+                            <img src="/report_custom_layout/static/src/img/signature.jpg" style="max-width: 130px;"/>
+                        </t>
+                        <div><strong>Authorized sign &amp; seal</strong></div>
+                    </td>
+                </tr>
+                </t>
+            </table>
+        </xpath>
+
+    </template>
+
+</odoo>

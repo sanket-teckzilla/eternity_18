@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_delivery_order_qrcode">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                    <t t-set="cell_type" t-value=""/>
+                    <t t-foreach="o.move_line_ids_without_package" t-as="comp">
+                        <t t-foreach="comp.move_id.created_production_id.move_raw_ids" t-as="cm">
+                            <t t-if="cm.product_id.product_type=='cell' and cm.product_uom_qty > 0">
+                                <t t-set="cell_type" t-value="cm.product_id.name"/>
+                            </t>
+                        </t>
+                    </t>
+                    <t t-foreach="o.move_line_ids_without_package" t-as="li">
+                        <t t-if="li.lot_id.qr_code">
+                            <div class="page" style="font-size:37px;">
+                                <div class="oe_structure"/>
+                                <div style="text-align:center;">
+                                    <div>
+                                        <table class="table border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                               style="text-align:left;" width="70%;">
+                                            <tr>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <b>Battery Number</b>
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    :
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <span t-esc="li.lot_id.product_id.name"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <b>Battery Capacity at C5</b>
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    :
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                    style="background: white;">
+                                                    <span t-esc="int(li.product_id.volts)"/>
+                                                    V
+                                                    <span t-esc="int(li.product_id.ah)"/>
+                                                    AH
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <b>Battery Serial Number</b>
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    :
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <span t-esc="li.lot_id.name"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <b>Cell Type</b>
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    :
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <span t-esc="cell_type"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <b>Battery Weight (+-5%)</b>
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    :
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <span t-esc="int(li.product_id.weight)"/>
+                                                    <t t-esc="li.product_id.weight_uom_name"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <b>Month &amp; Year of Mfg</b>
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    :
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <span t-esc="li.create_date.strftime('%B %Y')"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <br/>
+                                    <div class="row mt4">
+                                        <div class="col-3"></div>
+                                        <div class="col-6" style="text-align:center;">
+                                            <img t-attf-src="data:image/*;base64,{{li.lot_id.qr_code}}"
+                                                 style="height:251px;width:251px;"/>
+                                        </div>
+                                    </div>
+                                    <p style="page-break-before:always;"></p>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!--    <record id="action_report_qrcode_delivery_order"-->
+    <!--            model="stock.picking"-->
+    <!--            string="QR Code (Current)"-->
+    <!--            report_type="qweb-pdf"-->
+    <!--            name="gts_stock.report_delivery_order_qrcode"-->
+    <!--            file="gts_stock.report_delivery_order_qrcode"-->
+    <!--            paperformat="report_custom_layout.paperformat_custom_qrcode"/>-->
+
+
+    <record id="action_report_qrcode_delivery_order" model="ir.actions.report">
+        <field name="name">QR Code (Current)</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gts_stock.report_delivery_order_qrcode</field>
+        <field name="report_file">gts_stock.report_delivery_order_qrcode</field>
+        <field name="print_report_name">'QR Code (Current)'</field>
+        <field name="binding_model_id" ref="model_stock_picking"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="report_custom_layout.paperformat_custom_qrcode"/>
+    </record>
+    <!--upcoming-->
+    <template id="report_delivery_qrcode_upcoming">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <t t-set="cell_type" t-value=""/>
+                    <t t-foreach="o.move_line_ids_without_package" t-as="comp">
+                        <t t-foreach="comp.move_id.created_production_id.move_raw_ids" t-as="cm">
+                            <t t-if="cm.product_id.product_type=='cell' and cm.product_uom_qty > 0">
+                                <t t-set="cell_type" t-value="cm.product_id.name"/>
+                            </t>
+                        </t>
+                    </t>
+                    <t t-foreach="o.move_line_ids_without_package" t-as="li">
+                        <t t-if="li.lot_id.qr_code">
+                            <div class="page" style="font-size:29px;">
+                                <div class="oe_structure"/>
+                                <div style="text-align:center;">
+                                    <div class="row mt4">
+                                        <div class="col-2"></div>
+                                        <div class="col-6" style="text-align:center;">
+                                            <img t-attf-src="data:image/*;base64,{{li.lot_id.qr_code}}"
+                                                 style="height:190px;width:195px;"/>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <table class="table border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                               style="text-align:left;" width="70%;">
+                                            <tr>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <b>Battery Number</b>
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    :
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <span t-esc="li.lot_id.product_id.name"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <b>Battery Capacity at C5</b>
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    :
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                    style="background: white;">
+                                                    <span t-esc="int(li.product_id.volts)"/>
+                                                    V
+                                                    <span t-esc="int(li.product_id.ah)"/>
+                                                    AH
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <b>Battery Serial Number</b>
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    :
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <span t-esc="li.lot_id.name"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <b>Cell Type</b>
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    :
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <span t-esc="cell_type"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <b>Battery Weight (+-5%)</b>
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    :
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <span t-esc="int(li.product_id.weight)"/>
+                                                    <t t-esc="li.product_id.weight_uom_name"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <b>Month &amp; Year of Mfg</b>
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    :
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                                    <span t-esc="li.create_date.strftime('%B %Y')"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                    <p style="page-break-before:always;"></p>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!--    <record id="action_report_qrcode_do_upcoming"-->
+    <!--            model="stock.picking"-->
+    <!--            string="QR Code (Upcoming)"-->
+    <!--            report_type="qweb-pdf"-->
+    <!--            name="gts_stock.report_delivery_qrcode_upcoming"-->
+    <!--            file="gts_stock.report_delivery_qrcode_upcoming"-->
+    <!--            paperformat="report_custom_layout.paperformat_custom_qrcode"/>-->
+
+
+
+    <record id="action_report_qrcode_do_upcoming" model="ir.actions.report">
+        <field name="name">QR Code (Upcoming)</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gts_stock.report_delivery_qrcode_upcoming</field>
+        <field name="report_file">gts_stock.report_delivery_qrcode_upcoming</field>
+        <field name="print_report_name">'QR Code (Upcoming)'</field>
+        <field name="binding_model_id" ref="model_stock_picking"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="report_custom_layout.paperformat_custom_qrcode"/>
+    </record>
+
+</odoo>

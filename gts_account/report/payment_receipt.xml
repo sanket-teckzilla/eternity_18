@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="inherit_report_payment_receipt_document" inherit_id="account.report_payment_receipt_document">
+            <!--  Renaming Payment Receipt to Payment Advice and removed Transaction number          -->
+            <xpath expr="//div[@class='page']/h3" position="replace">
+                <h3><strong>Payment Advice</strong></h3>
+            </xpath>
+            <xpath expr="//thead" position="replace">
+                <thead>
+                        <tr>
+                            <th><span>Invoice Date</span></th>
+                            <th><span>Invoice Number</span></th>
+                            <th><span>Reference</span></th>
+                            <th class="text-right"><span>Original Amount</span></th>
+                            <th class="text-right"><span>TDS</span></th>
+                            <th class="text-right"><span>Amount Paid</span></th>
+                            <th class="text-right"><span>Balance</span></th>
+                        </tr>
+                    </thead>
+            </xpath>
+            <xpath expr="//tbody" position="replace">
+                 <tbody>
+                    <t t-foreach="o.move_id._get_reconciled_invoices_partials()[0]" t-as="rec">
+                        <t t-if="len(rec) == 3">
+                            <t t-set="inv" t-value="rec[2].move_id"/>
+                            <td><span t-field="inv.invoice_date"/></td>
+                            <td><span t-field="inv.name"/></td>
+                            <td><span t-field="inv.ref"/></td>
+                            <t t-set="amount_total" t-value="inv.amount_total - inv._get_tds_amt()"/>
+                            <td class="text-right"><span t-esc="amount_total"/></td>
+                            <td class="text-right">
+                                <t t-esc="inv._get_tds_amt()"/>
+                            </td>
+                            <t t-set="amount" t-value="rec[1]"/>
+                            <td class="text-right"><span t-esc="amount" t-options="{'widget': 'monetary', 'display_currency': inv.currency_id}"/></td>
+                            <td class="text-right"><span t-field="inv.amount_residual"/></td>
+                        </t>
+                    </t>
+                </tbody>
+            </xpath>
+        </template>
+    </data>
+</odoo>

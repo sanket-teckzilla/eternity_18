@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- Cron to synchronize transaction -->
+    <record id="online_sync_cron_daily_analysis" model="ir.cron">
+        <field name="name">Daily Analysis</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="state">code</field>
+        <field name="code">model.scheduled_daily_analysis_report()</field>
+        <field name="active" eval="True"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+<!--        <field name="numbercall">-1</field>-->
+    </record>
+
+    <!--***********************EMAIL TEMPLATE*********************************************-->
+    <record id="email_template_daily_analysis_report" model="mail.template">
+        <field name="name">Today's Analysis</field>
+        <field name="subject">Today's Analysis</field>
+        <field name="model_id" ref="base.model_res_users"/>
+        <field name="auto_delete" eval="False"/>
+        <field name="body_html"><![CDATA[
+            ]]>
+        </field>
+    </record>
+
+
+</odoo>

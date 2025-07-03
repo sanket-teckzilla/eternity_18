@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_move_view_inherit_production" model="ir.ui.view">
+        <field name="name">stock.move.form.inherit.plan</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_stock_move_operations"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_uom_qty']" position="attributes">
+                <attribute name="readonly">state not in ('draft','confirmed')</attribute>
+            </xpath>
+            <xpath expr="//field[@name='product_id']" position="after">
+                <field name="unit_factor"
+                       readonly="state not in ['draft','confirmed']"/>
+<!--                       attrs="{'readonly': [('parent.state', 'not in', ('draft','confirmed'))]}"/>-->
+            </xpath>
+        </field>
+    </record>
+
+    <record id="stock_picking_form_view_inherit" model="ir.ui.view">
+        <field name="name">stock.picking.inherit.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet//field[@name='move_ids_without_package']//list//field[@name='product_uom_qty']" position="after">
+                <field name="price_unit"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="stock_move_list_view_inherit" model="ir.ui.view">
+        <field name="name">stock.move.tree.inherit</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="/list//field[@name='reference']" position="after">
+                <field name="origin"/>
+                <field name="partner_id"/>
+            </xpath>
+        </field>
+    </record>
+
+<!--    Commented for migration -->
+<!--    Reason: field does not exist in 14 merged into another one-->
+<!--    <record id="stock_move_raw_tree_view_inherit" model="ir.ui.view">-->
+<!--        <field name="name">stock.move.tree.inherit.raw</field>-->
+<!--        <field name="model">stock.move</field>-->
+<!--        <field name="inherit_id" ref="mrp.view_stock_move_raw_tree"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//field[@name='unit_factor']" position="attributes">-->
+<!--                <attribute name="invisible">0</attribute>-->
+<!--                &lt;!&ndash;<attribute name="readonly">1</attribute>&ndash;&gt;-->
+<!--                &lt;!&ndash;<attribute name="force_save">1</attribute>&ndash;&gt;-->
+<!--            </xpath>-->
+<!--            &lt;!&ndash;<xpath expr="//field[@name='product_id']" position="attributes">&ndash;&gt;-->
+<!--                &lt;!&ndash;<attribute name="readonly">1</attribute>&ndash;&gt;-->
+<!--                &lt;!&ndash;<attribute name="force_save">1</attribute>&ndash;&gt;-->
+<!--            &lt;!&ndash;</xpath>&ndash;&gt;-->
+<!--            &lt;!&ndash;<xpath expr="//field[@name='product_uom']" position="attributes">&ndash;&gt;-->
+<!--                &lt;!&ndash;<attribute name="readonly">1</attribute>&ndash;&gt;-->
+<!--                &lt;!&ndash;<attribute name="force_save">1</attribute>&ndash;&gt;-->
+<!--            &lt;!&ndash;</xpath>&ndash;&gt;-->
+<!--        </field>-->
+<!--    </record>-->
+
+</odoo>

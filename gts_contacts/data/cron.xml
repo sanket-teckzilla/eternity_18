@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_auto_post_draft_entry" model="ir.cron">
+        <field name="name">Account Report Followup for Salesperson; Execute followup</field>
+        <field name="interval_number">2</field>
+        <field name="interval_type">weeks</field>
+<!--        below the both fields are not in odoo 18-->
+<!--        <field name="numbercall">-1</field>-->
+<!--        <field name="doall" eval="False"/>-->
+        <field name="nextcall" eval="(DateTime.now().replace(hour=2, minute=0) + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')" />
+        <field name="model_id" ref="model_res_partner"/>
+        <field name="code">model._cron_execute_followup_salesperson()</field>
+        <field name="state">code</field>
+    </record>
+</odoo>

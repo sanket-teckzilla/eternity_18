@@ -1,0 +1,120 @@
+<odoo>
+    <template id="mrp.label_production_view">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <t t-foreach="docs" t-as="production">
+                <t t-set="cell_type" t-value=""/>
+                <t t-foreach="production.move_raw_ids" t-as="comp">
+                    <t t-if="comp.product_id.product_type=='cell' and comp.product_uom_qty > 0">
+                        <t t-set="cell_type" t-value="comp.product_id.name"/>
+                    </t>
+                </t>
+                <t t-foreach="production.finished_move_line_ids" t-as="move">
+                    <div class="page">
+                        <div class="row">
+                            <div class="col-6" style="margin-right: 3px;">
+                               <div class="row" style="border: 1px solid;">
+                                   <div class="col-sm-12" >
+                                       <b style="font-size:10px;">Battery Number:</b>
+                                        <span style="font-size:10px;" t-esc="production.product_id.name"/>
+                                   </div>
+                               </div>
+                               <div class="row" style="border: 1px solid; border-top: 0;">
+                                    <div class="col-sm-12" >
+                                        <b style="font-size:10px;">Battery Capacity at C5:</b>
+                                        <span style="font-size:10px;" t-esc="int(production.product_id.volts)"/>
+                                        <span style="font-size:10px;">V</span>
+                                        <span style="font-size:10px;" t-esc="int(production.product_id.ah)"/>
+                                        <span style="font-size:10px;">AH</span>
+                                    </div>
+                                </div>
+                               <div class="row" style="border: 1px solid; border-top: 0;">
+                                    <div class="col-sm-12" >
+                                        <b style="font-size:10px;">Battery Serial Number:</b>
+                                        <span style="font-size:10px;" t-esc="move.lot_id.name"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="row" style="border: 1px solid;">
+                                    <div class="col-sm-12">
+                                         <b style="font-size:10px;">Cell Type:</b>
+                                          <span style="font-size:10px;" t-esc="cell_type"/>
+                                    </div>
+                                </div>
+                                <div class="row" style="border: 1px solid; border-top: 0;">
+                                    <div class="col-sm-12" >
+                                        <b style="font-size:10px;">Battery Weight (+-5%):</b>
+                                        <span style="font-size:10px;" t-esc="int(production.product_id.battery_weight)"/>
+                                        <span style="font-size:10px;" t-esc="production.product_id.weight_uom_name"/>
+                                    </div>
+                                </div>
+                                <div class="row" style="border: 1px solid; border-top: 0;">
+                                    <div class="col-sm-12" >
+                                        <b style="font-size:10px;">Month &amp; Year of Mfg:</b>
+                                        <span style="font-size:10px;" t-esc="move.create_date.strftime('%B %Y')"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p style="page-break-before:always;"></p>
+                    </div>
+                </t>
+                 </t>
+            </div>
+        </t>
+    </template>
+
+    <record id="label_paper_format" model="report.paperformat">
+        <field name="name">Finished Product Label (ZPL)</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">40</field>
+        <field name="page_width">100</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">19</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">2</field>
+        <field name="margin_right">2</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+    </record>
+
+    <record id="mrp.label_manufacture_template" model="ir.actions.report">
+        <field name="name">Finished Product Label (ZPL)</field>
+        <field name="model">mrp.production</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mrp.label_production_view</field>
+        <field name="report_file">mrp.label_production_view</field>
+        <field name="binding_model_id" eval="False"/>
+<!--        <field name="binding_model_id" ref="model_mrp_production"/>-->
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="label_paper_format"/>
+        <!--        <field name="menu">False</field>-->
+    </record>
+
+    <record id="mrp.action_report_finished_product" model="ir.actions.report">
+        <field name="name">Finished Product Label</field>
+        <field name="model">mrp.production</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mrp.label_production_view_pdf</field>
+        <field name="report_file">mrp.label_production_view_pdf</field>
+        <field name="binding_model_id" ref="model_mrp_production"/>
+        <field name="print_report_name">'Finished products - %s' % object.name</field>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="label_paper_format"/>
+    </record>
+
+    <record id="mrp.action_report_finished_product" model="ir.actions.report">
+        <field name="name">Finished Product Label (ZPL)</field>
+        <field name="model">mrp.production</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mrp.label_production_view</field>
+        <field name="report_file">mrp.label_production_view</field>
+        <field name="binding_model_id" ref="model_mrp_production"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="label_paper_format"/>
+    </record>
+
+
+</odoo>
