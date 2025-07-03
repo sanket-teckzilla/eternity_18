@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="stock_picking_view_order_inherit_eternity" model="ir.ui.view">
+            <field name="name">stock.picking.inherit.form.views</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet//div[@name='button_box']" position="inside">
+                    <button name="action_view_warranty_period" type="object" icon="fa-list"
+                            invisible="warranty_period_count == 0">
+                        <field name="warranty_period_count" widget="statinfo"/>
+                        <field name="delivery_type" invisible="1"/>
+                        <field name="carrier_tracking_ref" invisible="1"/>
+                        <field name="carrier_id" invisible="1"/>
+                        <field name="is_return_picking" invisible="1"/>
+                        <field name="show_operations" invisible="1"/>
+                    </button>
+                </xpath>
+                <field name="origin" position="after">
+                    <field name="vendor_inv_no" string="Vendor Inv Number"/>
+                    <field name="x_with_signature"/>
+                    <field name="production_ids" widget="many2many_tags" invisible="1"/>
+                </field>
+
+                <xpath expr="//notebook//page[3]" position="replace"/>
+                <xpath expr="//notebook//page[1]" position="before">
+                    <page string="Operations">
+                        <field name="move_ids_without_package" mode="list,kanban"
+                               readonly="state == 'done' and is_locked == True"
+                               context="{'default_company_id': company_id, 'picking_type_code': picking_type_code, 'default_picking_id': id, 'form_view_ref':'stock.view_move_form', 'address_in_id': partner_id, 'default_picking_type_id': picking_type_id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id}">
+<!--                            <list decoration-danger="state != 'done' and product_packaging_qty &gt; product_packaging_qty and show_reserved"-->
+<!--                            show_reserved not in odoo 18 -->
+                            <list decoration-danger="state != 'done' and product_packaging_qty &gt; product_packaging_qty"
+                                  decoration-muted="scrapped == True or state == 'cancel' or (state == 'done' and is_locked == True)"
+                                  string="Stock Moves" editable="bottom">
+                                <field name="company_id" invisible="1"/>
+                                <field name="name" invisible="1"/>
+                                <field name="state" invisible="1" readonly="0"/>
+                                <field name="picking_type_id" invisible="1"/>
+                                <field name="location_id" invisible="1"/>
+                                <field name="location_dest_id" invisible="1"/>
+                                <field name="scrapped" invisible="1"/>
+                                <field name="picking_code" invisible="1"/>
+                                <!-- the field is not in stock.move module in odoo 18-->
+                                <!-- <field name="product_type" invisible="1"/>-->
+                                <field name="show_details_visible" invisible="1"/>
+                                <!-- the field is not in stock.move module in odoo 18-->
+                                <!-- <field name="show_reserved" invisible="1"/>-->
+                                <field name="show_operations" invisible="1" readonly="1"/>
+                                <field name="additional" invisible="1"/>
+                                <field name="move_lines_count" invisible="1"/>
+                                <field name="is_locked" invisible="1"/>
+                                <field name="product_uom_category_id" invisible="1"/>
+                                <field name="has_tracking" invisible="1"/>
+                                <field name="display_assign_serial" invisible="1"/>
+                                <field name="product_id" required="1"
+                                       readonly="state != 'draft' or additional == False and move_lines_count &gt; 0"
+                                       options="{'no_create':True, 'no_edit':True, 'no_open':False}"/>
+                                <field name="description_picking" string="Description" optional="hide"/>
+                                <field name="date_deadline" optional="hide"
+                                       readonly="show_operations == True and is_locked == True"/>
+                                <field name="is_initial_demand_editable" invisible="1"/>
+                                <field name="is_quantity_done_editable" invisible="1"/>
+                                <field name="product_uom_qty" string="Demand"
+                                       readonly="is_initial_demand_editable == False or show_operations == True or is_locked == True or is_initial_demand_editable == False"/>
+                                <field name="product_packaging_qty" string="Reserved"
+                                       column_invisible="parent.state == 'done' and parent.picking_type_code == 'incoming'"/>
+                                <field name="product_packaging_qty" string="Done"
+                                       readonly="is_quantity_done_editable == False"/>
+                                <field name="product_uom" readonly="state != 'draft' and additional == False"
+                                       options="{'no_open': True, 'no_create': True}" string="Unit of Measure"
+                                       groups="uom.group_uom"/>
+                                <button name="action_show_details" string="Register lots, packs, location" type="object"
+                                        icon="fa-list" width="0.1" invisible="show_details_visible == False"
+                                        options="{&quot;warn&quot;: true}"/>
+                                <button name="action_assign_serial" type="object" icon="fa-plus-square" width="0.1"
+                                        role="img" title="Assign Serial Numbers"
+                                        invisible="display_assign_serial == False or show_operations == False"/>
+                            </list>
+                            <form string="Stock Moves">
+                                <header>
+                                    <field name="state" widget="statusbar"/>
+                                </header>
+                                <group>
+                                    <field name="product_uom_category_id" invisible="1"/>
+                                    <field name="additional" invisible="1"/>
+                                    <field name="move_lines_count" invisible="1"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="product_id" required="1"
+                                           readonly="state != 'draft' or additional == False and move_lines_count &gt; 0"/>
+                                    <field name="is_initial_demand_editable" invisible="1"/>
+                                    <field name="is_quantity_done_editable" invisible="1"/>
+                                    <field name="product_uom_qty" string="Initial Demand"
+                                           readonly="is_initial_demand_editable == False"/>
+                                    <field name="product_packaging_qty" string="Reserved"
+                                           invisible="parent.state == 'done' or parent.picking_type_code == 'incoming'"/>
+                                    <field name="product_packaging_qty" string="Done"
+                                           readonly="is_quantity_done_editable == False"/>
+                                    <field name="product_uom" readonly="state != 'draft' and additional == False"
+                                           options="{'no_open': True, 'no_create': True}" string="Unit of Measure"
+                                           groups="uom.group_uom"/>
+                                    <field name="description_picking" string="Description"/>
+                                </group>
+                            </form>
+                        </field>
+                        <field name="id" invisible="1"/>
+                        <field name="package_level_ids"
+                               context="{'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"
+                               readonly="state == 'done'"
+                               invisible="picking_type_entire_packs == False or show_operations == True"/>
+                        <button class="oe_highlight" name="action_put_in_pack" type="object" string="Put in Pack"
+                                invisible="state in ('draft', 'done', 'cancel')" groups="stock.group_tracking_lot"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

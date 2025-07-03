@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_price_request">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                    <div class="page" style="font-size:37px;">
+                        <div class="oe_structure"/>
+                        <div style="text-align:center;">
+                            <div>
+                                <table class="table" style="text-align:left;">
+                                    <tr>
+                                        <td>
+                                            <b>DATE</b>
+                                        </td>
+                                        <td>
+                                            :
+                                        </td>
+                                        <td>
+                                            <span t-esc="o.date"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <b>CUSTOMER</b>
+                                        </td>
+                                        <td>
+                                            :
+                                        </td>
+                                        <td>
+                                            <span t-esc="o.customer.name"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <b>BATTERY RATING WITH CELL TYPE</b>
+                                        </td>
+                                        <td>
+                                            :
+                                        </td>
+                                        <td>
+                                            <span t-esc="o.battery_rating_cell_type"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <b>ET DRAWING NO.</b>
+                                        </td>
+                                        <td>
+                                            :
+                                        </td>
+                                        <td>
+                                            <span t-esc="o.drawing_no"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <b>PRICE REQUIRED</b>
+                                        </td>
+                                        <td>
+                                            :
+                                        </td>
+                                        <td>
+                                            <span t-esc="o.price_req"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <b>VALIDITY</b>
+                                        </td>
+                                        <td>
+                                            :
+                                        </td>
+                                        <td>
+                                            <span t-esc="o.validity"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <b>TRANSPORTATION</b>
+                                        </td>
+                                        <td>
+                                            :
+                                        </td>
+                                        <td>
+                                            <span t-esc="o.transportation"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <b>PAYMENT TERMS</b>
+                                        </td>
+                                        <td>
+                                            :
+                                        </td>
+                                        <td>
+                                            <span t-esc="o.payment_term.name"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <b>JUSTIFICATION</b>
+                                        </td>
+                                        <td>
+                                            :
+                                        </td>
+                                        <td>
+                                            <span t-esc="o.justification"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+    <record id="action_report_price_request" model="ir.actions.report">
+        <field name="name">Price Request</field>
+        <field name="model">price.approval</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gts_sale.report_price_request</field>
+        <field name="report_file">gts_sale.report_price_request</field>
+        <field name="print_report_name">'Price Request - %s' % (object.sale_id.name)</field>
+        <field name="binding_model_id" ref="model_price_approval"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

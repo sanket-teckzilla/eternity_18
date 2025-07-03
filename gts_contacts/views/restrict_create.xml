@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <!--  We need a way to add the groups somehow to handle this view creation and restriction      -->
+        <!--kanban-->
+        <record id="res_partner_no_create_kanban" model="ir.ui.view">
+            <field name="name">res.partner.kanban.no.create</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+<!--            <field name="groups_id" eval="[(4, ref('base.group_user'))]"/>-->
+            <field name="arch" type="xml">
+                <xpath expr="/kanban" position="attributes">
+                    <attribute name="edit">false</attribute>
+                    <attribute name="delete">false</attribute>
+                    <attribute name="create">false</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="res_partner_create_kanban" model="ir.ui.view">
+            <field name="name">res.partner.create.kanban</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+<!--            <field name="groups_id" eval="[(4, ref('gts_contacts.contact_create_access'))]"/>-->
+            <field name="arch" type="xml">
+                <xpath expr="/kanban" position="attributes">
+                    <attribute name="edit">true</attribute>
+                    <attribute name="delete">true</attribute>
+                    <attribute name="create">true</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!--list-->
+        <record id="res_partner_no_create_tree" model="ir.ui.view">
+            <field name="name">res.partner.tree.no.create</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+<!--            <field name="groups_id" eval="[(4, ref('base.group_user'))]"/>-->
+            <field name="arch" type="xml">
+                <xpath expr="/list" position="attributes">
+                    <attribute name="edit">false</attribute>
+                    <attribute name="delete">false</attribute>
+                    <attribute name="create">false</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="res_partner_create_tree" model="ir.ui.view">
+            <field name="name">res.partner.tree.create</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+<!--            <field name="groups_id" eval="[(4,ref('gts_contacts.contact_create_access'))]"/>-->
+            <field name="arch" type="xml">
+                <xpath expr="/list" position="attributes">
+                    <attribute name="edit">true</attribute>
+                    <attribute name="delete">true</attribute>
+                    <attribute name="create">true</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!--form-->
+        <record id="res_partner_no_create_form" model="ir.ui.view">
+            <field name="name">res.partner.form.no.create</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+<!--            <field name="groups_id" eval="[(4, ref('base.group_user'))]"/>-->
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="attributes">
+                    <attribute name="edit">false</attribute>
+                    <attribute name="delete">false</attribute>
+                    <attribute name="create">false</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="res_partner_create_form" model="ir.ui.view">
+            <field name="name">res.partner.form.create</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+<!--            <field name="groups_id" eval="[(4,ref('gts_contacts.contact_create_access'))]"/>-->
+            <field name="arch" type="xml">
+                <xpath expr="/form" position="attributes">
+                    <attribute name="edit">true</attribute>
+                    <attribute name="delete">true</attribute>
+                    <attribute name="create">true</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+</odoo>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="product_creation_email_template" model="mail.template">
+            <field name="name">New Product Creation Template</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="subject">New Product Created ${object.name}</field>
+            <field name="body_html"><![CDATA[
+                <p>Hi Team,</p><br/>
+                <p>${object.create_uid.name} has created a new product, please find the product details below:</p><br/>
+                <p><b>Product Name:</b> ${object.name}<p>
+                <p><b>Internal Reference:</b> ${object.default_code}</p>
+                <p><b>Cost:</b> ${object.standard_price}</p>
+                <p><b>HSN Code:</b> ${object.l10n_in_hsn_code}</p>
+                %if object.ah != 0.00:
+                <p><b>AH:</b> ${object.ah}</p>
+                %endif
+                %if object.volts != 0.00:
+                <p><b>Volts:</b> ${object.volts}</p>
+                %endif
+                <br/><p>Thanks</p>
+                ]]>
+            </field>
+        </record>
+
+    </data>
+</odoo>

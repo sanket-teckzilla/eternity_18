@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+   <data>
+        <record id="import_variant_view" model="ir.ui.view">
+            <field name="name">import.product.variant</field>
+            <field name="model">update.lot.quantity</field>
+            <field name="arch" type="xml">
+                <form string="Update Product Quantity">
+                    <group>
+                        <field name="upload_file"/>
+                    </group>
+                    <footer>
+                        <button name="import_quant" string="UPDATE" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+       <record id="action_update_quantity" model="ir.actions.act_window">
+            <field name="name">Update Product Quantity</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">update.lot.quantity</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_view_types">list</field>
+        </record>
+
+       <menuitem id="update_quant_menu" name="Update Quantity" action="action_update_quantity" parent="stock.menu_stock_warehouse_mgmt"/>
+    </data>
+</odoo>

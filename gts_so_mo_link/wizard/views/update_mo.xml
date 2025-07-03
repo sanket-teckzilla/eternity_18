@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+   <data>
+        <record id="cancel_mo_view" model="ir.ui.view">
+            <field name="name">cancel.mo</field>
+            <field name="model">cancel.mo</field>
+            <field name="arch" type="xml">
+                <form string="Update Product Quantity">
+                    <group>
+                        <field name="upload_file"/>
+                    </group>
+                    <footer>
+                        <button name="close_mo" string="UPDATE" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+       <record id="action_cancel_mo" model="ir.actions.act_window">
+            <field name="name">Cancel Manufacturing</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cancel.mo</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+<!--            <field name="binding_view_types">list</field>-->
+        </record>
+
+       <menuitem id="cancel_mo_status_menu" name="Update MO Status" action="action_cancel_mo" parent="mrp.menu_mrp_manufacturing"/>
+    </data>
+</odoo>

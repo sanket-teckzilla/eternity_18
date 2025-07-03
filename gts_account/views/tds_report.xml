@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <!-- Form View to Select Date  -->
+        <record id="tds_date_selector_form" model="ir.ui.view">
+            <field name="name">Date Selector</field>
+            <field name="model">tds.dateselector</field>
+            <field name="arch" type="xml">
+                <form string="Date Selector" create="false" edit="false">
+                    <group>
+                        <field name="start_date" string="Start Date" required="1"/>
+                        <field name="end_date" string="End Date" required="1"/>
+                    </group>
+                    <footer>
+                        <button string="Generate Report" name="generate_tds_report" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Menu Action -->
+        <record id="tds_date_selector_action" model="ir.actions.act_window">
+            <field name="name">Date Selector</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tds.dateselector</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!-- Tree View of TDS Report  -->
+        <record id="tds_report" model="ir.ui.view">
+            <field name="name">TDS Report</field>
+            <field name="model">tds.report.wizard</field>
+            <field name="arch" type="xml">
+                <list string="Date Selector" create="false" edit="false">
+                    <field name="date"/>
+                    <field name="move_id"/>
+                    <field name="account_id"/>
+                    <field name="account_code"/>
+                    <field name="account_name"/>
+                    <field name="partner_id"/>
+                    <field name="pan_num"/>
+                    <field name="ref"/>
+                    <field name="name"/>
+                    <field name="debit"/>
+                    <field name="credit"/>
+                    <field name="untaxed_amount"/>
+                    <field name="balance"/>
+                    <field name="cumulated_balance"/>
+                    <field name="amount_currency"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Menu Item -->
+        <menuitem id="menu_action_account_report_tds" name="TDS Report" parent="account.menu_finance_reports" action="tds_date_selector_action" sequence="24"/>
+
+    </data>
+</odoo>

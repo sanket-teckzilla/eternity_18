@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_test_report_mo,test.report.mo,model_test_report_mo,base.group_user,1,1,1,1
+access_cancel_mo,cancel.mo,model_cancel_mo,base.group_user,1,1,1,1
+

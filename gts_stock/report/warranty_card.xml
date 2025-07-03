@@ -1,0 +1,327 @@
+<odoo>
+
+    <template id="warranty_card_stock_picking">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <!--<t t-set="l_number" t-value="0"/>-->
+                <t t-foreach="o.warranty_period_ids" t-as="line">
+                    <!--<t t-if="line.battery_no.product_type == 'battery'">-->
+                        <div class="page">
+                            <div class="row mb16">
+                                <div class="col-15">
+                                    <table class="table  border-top-0 border-right-0 border-left-0 border-bottom-0 table-borderless">
+                                        <tr>
+                                            <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                width="40%">
+                                                <b>Customer</b>
+                                            </td>
+                                            <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                width="5%">
+                                                :
+                                            </td>
+                                            <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                width="60%">
+                                                <b>
+                                                    <span t-esc="o.partner_id.name"/>
+                                                </b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                width="40%">
+                                                <t t-if="line.battery_no.product_type == 'battery'">
+                                                    <b>Battery No.</b>
+                                                </t>
+                                                <t t-if="line.battery_no.product_type == 'cell'">
+                                                    <b>Cell No.</b>
+                                                </t>
+                                            </td>
+                                            <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                width="5%">
+                                                :
+                                            </td>
+                                            <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                width="60%">
+                                                <b>
+                                                    <span t-esc="line.battery_no.name"/>
+                                                </b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                width="40%">
+                                                <t t-if="line.battery_no.product_type == 'battery'">
+                                                    <b>Battery Capacity @ C5</b>
+                                                </t>
+                                                <t t-if="line.battery_no.product_type == 'cell'">
+                                                    <b>Cell Capacity @ C5</b>
+                                                </t>
+                                            </td>
+                                            <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                width="5%">
+                                                :
+                                            </td>
+                                            <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                width="60%">
+                                                <b>
+                                                    <span t-esc="int(line.battery_no.volts)"/>
+                                                    V
+                                                    <span t-esc="int(line.battery_no.ah)"/>
+                                                    AH
+                                                </b>
+                                            </td>
+                                        </tr>
+                                        <t t-if="line.battery_no.product_type == 'battery'">
+                                            <tr>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                    width="40%">
+                                                    <b>Cell Type</b>
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                    width="5%">
+                                                    :
+                                                </td>
+                                                <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                    width="60%">
+                                                    <b>
+                                                        <span t-esc="line.cell_type.name"/>
+                                                    </b>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <tr>
+                                            <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                width="40%">
+                                                <t t-if="line.battery_no.product_type == 'battery'">
+                                                    <b>Battery Sr. No.</b>
+                                                </t>
+                                                <t t-if="line.battery_no.product_type == 'cell'">
+                                                    <b>Cell Sr. No.</b>
+                                                </t>
+                                            </td>
+                                            <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                width="5%">
+                                                :
+                                            </td>
+                                            <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                width="60%">
+                                                <b>
+                                                    <t t-esc="line.battery_sr_no"/>
+                                                </b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                width="40%">
+                                                <b>Invoice Reference</b>
+                                            </td>
+                                            <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                width="5%">
+                                                :
+                                            </td>
+                                            <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                width="60%">
+                                                <b>
+                                                    <span t-esc="line.invoice_ref.name"/>
+                                                </b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                width="40%">
+                                                <b>Warranty Period</b>
+                                            </td>
+                                            <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                width="5%">
+                                                :
+                                            </td>
+                                            <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"
+                                                width="60%">
+                                                <b>
+                                                    <span t-esc="line.validity_from.strftime('%d/%m/%Y')"/>
+                                                    To
+                                                    <span t-esc="line.validity_to.strftime('%d/%m/%Y')"/>
+                                                </b>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <p style="page-break-before:always;"></p>
+                        </div>
+                    <!--</t>-->
+                    <!--<t t-if="line.product_id.product_type != 'battery'">-->
+                        <!--<t t-if="l_number == 0">-->
+                            <!--<div class="page">-->
+                                <!--<div class="row mb16">-->
+                                    <!--<div class="col-15">-->
+                                        <!--<table class="table border-top-0 border-right-0 border-left-0 border-bottom-0">-->
+                                            <!--<tr>-->
+                                                <!--<td class="border-top-0 border-right-0 border-left-0 border-bottom-0"-->
+                                                    <!--width="40%">-->
+                                                    <!--<b>Customer</b>-->
+                                                <!--</td>-->
+                                                <!--<td class="border-top-0 border-right-0 border-left-0 border-bottom-0"-->
+                                                    <!--width="5%">-->
+                                                    <!--:-->
+                                                <!--</td>-->
+                                                <!--<td class="border-top-0 border-right-0 border-left-0 border-bottom-0"-->
+                                                    <!--width="60%">-->
+                                                    <!--<b>-->
+                                                        <!--<span t-esc="o.partner_id.name"/>-->
+                                                    <!--</b>-->
+                                                <!--</td>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td class="border-top-0 border-right-0 border-left-0 border-bottom-0"-->
+                                                    <!--width="40%">-->
+                                                    <!--<t t-if="line.product_id.product_type == 'battery'">-->
+                                                        <!--<b>Battery No.</b>-->
+                                                    <!--</t>-->
+                                                    <!--<t t-if="line.product_id.product_type == 'cell'">-->
+                                                        <!--<b>Cell No.</b>-->
+                                                    <!--</t>-->
+                                                <!--</td>-->
+                                                <!--<td class="border-top-0 border-right-0 border-left-0 border-bottom-0"-->
+                                                    <!--width="5%">-->
+                                                    <!--:-->
+                                                <!--</td>-->
+                                                <!--<td class="border-top-0 border-right-0 border-left-0 border-bottom-0"-->
+                                                    <!--width="60%">-->
+                                                    <!--<b>-->
+                                                        <!--<span t-esc="line.product_id.name"/>-->
+                                                    <!--</b>-->
+                                                <!--</td>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td class="border-top-0 border-right-0 border-left-0 border-bottom-0"-->
+                                                    <!--width="40%">-->
+                                                    <!--<t t-if="line.product_id.product_type == 'battery'">-->
+                                                        <!--<b>Battery Capacity @ C5</b>-->
+                                                    <!--</t>-->
+                                                    <!--<t t-if="line.product_id.product_type == 'cell'">-->
+                                                        <!--<b>Cell Capacity @ C5</b>-->
+                                                    <!--</t>-->
+                                                <!--</td>-->
+                                                <!--<td class="border-top-0 border-right-0 border-left-0 border-bottom-0"-->
+                                                    <!--width="5%">-->
+                                                    <!--:-->
+                                                <!--</td>-->
+                                                <!--<td class="border-top-0 border-right-0 border-left-0 border-bottom-0"-->
+                                                    <!--width="60%">-->
+                                                    <!--<b>-->
+                                                        <!--<span t-esc="int(line.product_id.volts)"/>-->
+                                                        <!--V-->
+                                                        <!--<span t-esc="int(line.product_id.ah)"/>-->
+                                                        <!--AH-->
+                                                    <!--</b>-->
+                                                <!--</td>-->
+                                            <!--</tr>-->
+                                            <!--<t t-if="line.product_id.product_type == 'battery'">-->
+                                                <!--<tr>-->
+                                                    <!--<td class="border-top-0 border-right-0 border-left-0 border-bottom-0"-->
+                                                        <!--width="40%">-->
+                                                        <!--<b>Cell Type</b>-->
+                                                    <!--</td>-->
+                                                    <!--<td class="border-top-0 border-right-0 border-left-0 border-bottom-0"-->
+                                                        <!--width="5%">-->
+                                                        <!--:-->
+                                                    <!--</td>-->
+                                                    <!--<td class="border-top-0 border-right-0 border-left-0 border-bottom-0"-->
+                                                        <!--width="60%">-->
+                                                        <!--<b>-->
+                                                            <!--<span t-esc="o.get_cell_type(line.move_id.created_production_id.id)"/>-->
+                                                        <!--</b>-->
+                                                    <!--</td>-->
+                                                <!--</tr>-->
+                                            <!--</t>-->
+                                            <!--<tr>-->
+                                                <!--<td class="border-top-0 border-right-0 border-left-0 border-bottom-0"-->
+                                                    <!--width="40%">-->
+                                                    <!--<t t-if="line.product_id.product_type == 'battery'">-->
+                                                        <!--<b>Battery Sr. No.</b>-->
+                                                    <!--</t>-->
+                                                    <!--<t t-if="line.product_id.product_type == 'cell'">-->
+                                                        <!--<b>Cell Sr. No.</b>-->
+                                                    <!--</t>-->
+                                                <!--</td>-->
+                                                <!--<td class="border-top-0 border-right-0 border-left-0 border-bottom-0"-->
+                                                    <!--width="5%">-->
+                                                    <!--:-->
+                                                <!--</td>-->
+                                                <!--<td class="border-top-0 border-right-0 border-left-0 border-bottom-0"-->
+                                                    <!--width="60%">-->
+                                                    <!--<b>-->
+                                                        <!--<t t-if="line.lot_id">-->
+                                                            <!--<t t-esc="line.lot_id.name"/> (<t t-esc="line.picking_id.cell_serial_list"/>)-->
+                                                        <!--</t>-->
+                                                    <!--</b>-->
+                                                <!--</td>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td class="border-top-0 border-right-0 border-left-0 border-bottom-0"-->
+                                                    <!--width="40%">-->
+                                                    <!--<b>Invoice Reference</b>-->
+                                                <!--</td>-->
+                                                <!--<td class="border-top-0 border-right-0 border-left-0 border-bottom-0"-->
+                                                    <!--width="5%">-->
+                                                    <!--:-->
+                                                <!--</td>-->
+                                                <!--<td class="border-top-0 border-right-0 border-left-0 border-bottom-0"-->
+                                                    <!--width="60%">-->
+                                                    <!--<b>-->
+                                                        <!--<span t-esc="line.lot_id.invoice_number"/>-->
+                                                    <!--</b>-->
+                                                <!--</td>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td class="border-top-0 border-right-0 border-left-0 border-bottom-0"-->
+                                                    <!--width="40%">-->
+                                                    <!--<b>Warranty Period</b>-->
+                                                <!--</td>-->
+                                                <!--<td class="border-top-0 border-right-0 border-left-0 border-bottom-0"-->
+                                                    <!--width="5%">-->
+                                                    <!--:-->
+                                                <!--</td>-->
+                                                <!--<td class="border-top-0 border-right-0 border-left-0 border-bottom-0"-->
+                                                    <!--width="60%">-->
+                                                    <!--<b>-->
+                                                        <!--<span t-esc="line.lot_id.start_date"/>-->
+                                                        <!--To-->
+                                                        <!--<span t-esc="line.lot_id.end_date"/>-->
+                                                    <!--</b>-->
+                                                <!--</td>-->
+                                            <!--</tr>-->
+                                        <!--</table>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<p style="page-break-before:always;"></p>-->
+                            <!--</div>-->
+                        <!--</t>-->
+                        <!--<t t-set="l_number" t-value="l_number+1"/>-->
+                    <!--</t>-->
+                </t>
+            </t>
+        </t>
+    </template>
+
+<!--    <record string="Warranty Card (PDF)"-->
+<!--            id="warranty_card_report_stock_picking"-->
+<!--            model="stock.picking"-->
+<!--            name="gts_stock.warranty_card_stock_picking"-->
+<!--            file="gts_stock.warranty_card_stock_picking"-->
+<!--            report_type="qweb-pdf"-->
+<!--            paperformat="report_custom_layout.warranty_custom_paperformat"/>-->
+
+    <record id="warranty_card_report_stock_picking" model="ir.actions.report">
+        <field name="name">Warranty Card (PDF)</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gts_stock.warranty_card_stock_picking</field>
+        <field name="report_file">gts_stock.warranty_card_stock_picking</field>
+        <field name="print_report_name">'Warranty Card (PDF)'</field>
+        <field name="binding_model_id" ref="model_stock_picking"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="report_custom_layout.warranty_custom_paperformat"/>
+    </record>
+</odoo>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="product_template_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.template.inherit.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <!--                <xpath expr="//button[2]" position="after">-->
+            <!--                    <button string="Update Temporary fields" name="update_temp_fields"-->
+            <!--                            type="object" class="btn btn-secondary" groups="base.group_no_one"/>-->
+            <!--                    <button string="Create Variants" name="create_variant"-->
+            <!--                            type="object" class="btn btn-secondary" groups="base.group_no_one"/>-->
+            <!--                </xpath>-->
+
+            <xpath expr="//field[@name='barcode']" position="after">
+                <field name="have_design"/>
+                <field name="attach_design_pdf" filename="attach_design_pdf_filename"
+                       invisible="not have_design" required="have_design"/>
+                <field name="attach_design_pdf_filename" invisible="1"/>
+                <field name="attach_design_solidworks" filename="attach_design_solidworks_filename"
+                       invisible="not have_design" required="have_design"/>
+                <field name="attach_design_solidworks_filename" invisible="1"/>
+            </xpath>
+
+            <field name="uom_po_id" position="after">
+                <field name="product_type"/>
+                <field name="calculate_ah"/>
+                <field name="volts"
+                       invisible="not calculate_ah or product_type == 'cell'" required="calculate_ah"/>
+                <!--                    <field name="ah" attrs="{'invisible': ['|',('calculate_ah', '=', False)], 'required': [('product_type', '=','battery'),('calculate_ah', '=', True)]}"/>-->
+                <field name="ah"
+                       invisible="not calculate_ah" required="product_type == 'battery' and calculate_ah"/>
+                <field name="battery_weight" invisible="product_type == 'cell'"/>
+                <!--                    <field name="standard_price_temp" groups="base.group_no_one"/>-->
+                <!--                    <field name="default_code_temp" groups="base.group_no_one"/>-->
+            </field>
+        </field>
+    </record>
+
+    <record id="product_common_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.common.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="l1_approved" invisible="1"/>
+                <field name="sent_for_approval" invisible="1"/>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="%(gts_product.action_approve_product)d" type="action" string="Approve Product"
+                        groups="gts_product.product_approval_l1" class="btn-success"
+                        invisible="l1_approved or not sent_for_approval"/>
+<!--                        attrs="{'invisible':['|',('l1_approved','=',True),('sent_for_approval','!=',True)]}"/>-->
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_product_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.product.inherit.form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='barcode']" position="after">
+                <field name="have_design"/>
+                <field name="attach_design_pdf" filename="attach_design_pdf_filename"
+                       invisible="not have_design" required="have_design"/>
+                <field name="attach_design_pdf_filename" invisible="1"/>
+                <field name="attach_design_solidworks" filename="attach_design_solidworks_filename"
+                       invisible="not have_design" required="have_design"/>
+                <field name="attach_design_solidworks_filename" invisible="1"/>
+                <field name="cell_type"/>
+                <field name="cell_qty_to_consume"/>
+            </xpath>
+            <!--  CJ   -->
+            <xpath expr="//field[@name='taxes_id']" position="before">
+                <field name="mrp_price"/>
+            </xpath>
+            <!--            <xpath expr="//field[@name='default_code']" position="attributes">-->
+            <!--                <attribute name="required">True</attribute>-->
+            <!--            </xpath>-->
+            <xpath expr="//field[@name='cell_type']" position="replace">
+                <field name="cell_type" />
+                <!-- invisible="bom_count != 0"               -->
+            </xpath>
+            <xpath expr="//field[@name='cell_qty_to_consume']" position="replace">
+                <field name="cell_qty_to_consume" />
+<!--                invisible="bom_count != 0"-->
+            </xpath>
+            <!-- End CJ   -->
+            <field name="uom_po_id" position="after">
+                <field name="product_type"/>
+                <!--<field name="product_warranty"/>-->
+                <field name="calculate_ah"/>
+                <field name="volts"
+                       invisible="not calculate_ah or product_type == 'cell'" required="calculate_ah"/>
+                <field name="ah" invisible="calculate_ah == False" required="product_type == 'battery' and calculate_ah"/>
+
+                <field name="battery_weight" invisible="product_type == 'cell'"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="product_search_view_inherit">
+        <field name="name">product.template.search</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="/search//filter[@name='inactive']" position="attributes">
+                <attribute name="groups">gts_product.product_approval_l1,gts_product.product_create_access</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_in.product_template_hsn_code">
+        <field name="name">l10n_in.product.template.form.hsn_code</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <field name="categ_id" position="after">
+                <field name="l10n_in_hsn_code" required="1"/>
+                <field name="l10n_in_hsn_warning"/>
+<!--                <field name="l10n_in_hsn_description"/> commented by sanket-->
+            </field>
+
+        </field>
+    </record>
+
+    <record id="stock_res_config_inherit" model="ir.ui.view">
+        <field name="name">stock.res.config.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="30"/>
+        <field name="inherit_id" ref="stock.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='barcode_setting_container']" position="after">
+                <h2>Valuation Filtering</h2>
+                <div class="row mt16 o_settings_container" name="barcode_setting_container">
+                    <div class="col-12 col-lg-6 o_setting_box" id="process_operations_barcodes">
+                        <div>
+                            <label for="cost_updating_date"/>
+                            <field name="cost_updating_date" class="oe_inline"/>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <!--    <record id="stock_account.stock_valuation_layer_action" model="ir.actions.act_window">-->
+    <!--        <field name="name">Stock Valuation</field>-->
+    <!--        <field name="type">ir.actions.act_window</field>-->
+    <!--        <field name="res_model">stock.valuation.layer</field>-->
+    <!--        <field name="view_mode">tree,form</field>-->
+    <!--        <field name="view_id" ref="stock_account.view_inventory_valuation_search"/>-->
+    <!--        <field name="domain">[('product_id.type', '=', 'product'),('create_date','>','2021-07-22 07:05:00')]</field>-->
+    <!--        <field name="context">{'search_default_group_by_product_id': 1}</field>-->
+    <!--        <field name="help" type="html">-->
+    <!--            <p class="o_view_nocontent_smiling_face"/>-->
+    <!--            <p>-->
+    <!--                There is no valuation layers. Valuation layers are created when some product moves should impact the valuation of the stock.-->
+    <!--            </p>-->
+    <!--        </field>-->
+    <!--    </record>-->
+    <record id="action_prod_to_approve" model="ir.actions.act_window">
+        <field name="name">Products To Approve</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('active','=',False),('sent_for_approval','=',True)]</field>
+    </record>
+
+    <record id="custom_compute_cost_from_bom" model="ir.actions.server">
+        <field name="name">Compute BOM Price Custom</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="binding_model_id" ref="product.model_product_template"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+            records.custom_compute_cost_from_bom()
+        </field>
+    </record>
+
+    <menuitem id="prod_to_approve_menu" name="Products To Approve" action="action_prod_to_approve"
+              groups="gts_product.product_approval_l1" parent="stock.menu_stock_root"/>
+
+    <!-- CJ    -->
+    <!--  Inherited Tree view of Product Variants from product module to add RFQ Quantity Field  -->
+    <record id="product_product_tree_view_inherit" model="ir.ui.view">
+        <field name="name">product.product.tree.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lst_price']" position="before">
+                <field name="rfq_quantity"/>
+                <field name="cell_type" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+    <!-- CJ END  -->
+
+</odoo>

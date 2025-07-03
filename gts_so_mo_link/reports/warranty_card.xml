@@ -1,0 +1,120 @@
+<odoo>
+    <template id="warranty_view_pdf">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="production">
+                <div class="page">
+                    <div class="row" style="line-height:14pt;">
+                        <!--                    <div class="row" >-->
+                        <div class="col-15" style="font-size: 18px;">
+                            <!--                        <div class="col-15" >-->
+                            <t t-set="cell_type" t-value=""/>
+                            <t t-foreach="production.move_raw_ids" t-as="comp">
+                                <t t-if="comp.product_id.product_type=='cell' and comp.product_uom_qty > 0 and not cell_type">
+                                    <t t-set="cell_type" t-value="comp.product_id.name"/>
+                                </t>
+                            </t>
+                            <t t-foreach="serial_nos" t-as="sr_no">
+                                <table class="table  border-top-0 border-right-0 border-left-0 border-bottom-0 table-borderless">
+                                    <tr>
+                                        <td class="border-top-0 border-right-0 border-left-0 border-bottom-0" width="30%">
+                                            <b>Customer</b>
+                                        </td>
+                                        <td class="border-top-0 border-right-0 border-left-0 border-bottom-0" >
+                                            :
+                                        </td>
+                                        <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"  width="100%">
+                                            <b><t t-esc="production.partner_id.name"/></b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-top-0 border-right-0 border-left-0 border-bottom-0" width="30%">
+                                            <b>Battery Sr. No.</b>
+                                        </td>
+                                        <td class="border-top-0 border-right-0 border-left-0 border-bottom-0" >
+                                            :
+                                        </td>
+                                        <td class="border-top-0 border-right-0 border-left-0 border-bottom-0" width="100%">
+                                            <!--                                            <t t-foreach="serial_nos" t-as="sr_no">-->
+                                            <!--                                                <t t-if="sr_no">-->
+                                            <b><t t-esc="sr_no"/></b>
+                                            <!--                                                </t>-->
+                                            <!--                                            </t>-->
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"  width="30%">
+                                            <b>Battery Type</b>
+                                        </td>
+                                        <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                            :
+                                        </td>
+                                        <td class="border-top-0 border-right-0 border-left-0 border-bottom-0" width="100%">
+                                            <b><t t-esc="production.product_id.volts"/>V <t t-esc="production.product_id.ah"/>AH</b>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="border-top-0 border-right-0 border-left-0 border-bottom-0" width="30%">
+                                            <b>Cell Type</b>
+                                        </td>
+                                        <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                            :
+                                        </td>
+                                        <td class="border-top-0 border-right-0 border-left-0 border-bottom-0" width="100%">
+                                            <b> <span t-esc="cell_type"/> </b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-top-0 border-right-0 border-left-0 border-bottom-0" width="30%">
+                                            <b>Invoice Reference</b>
+                                        </td>
+                                        <td class="border-top-0 border-right-0 border-left-0 border-bottom-0">
+                                            :
+                                        </td>
+                                        <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"  width="100%">
+                                            <t t-if="inv_ref">
+                                                <b> <span t-esc="inv_ref"/> </b>
+                                            </t>
+                                            <t t-if="not inv_ref">
+                                                <b> Not Invoiced </b>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"  width="30%">
+                                            <b>Warranty Period</b>
+                                        </td>
+                                        <td class="border-top-0 border-right-0 border-left-0 border-bottom-0" >
+                                            :
+                                        </td>
+                                        <td class="border-top-0 border-right-0 border-left-0 border-bottom-0"  width="100%">
+                                            <b><span t-esc="warranty"/></b>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </t>
+                            <t t-if="serial_len > 1">
+                                <p style="page-break-before:always;"></p>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="warranty_card_report_id" model="ir.actions.report">
+        <field name="name">Warranty Card (PDF)</field>
+        <field name="model">mrp.production</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gts_so_mo_link.warranty_view_pdf</field>
+        <field name="report_file">gts_so_mo_link.warranty_view_pdf</field>
+        <field name="binding_model_id" ref="model_mrp_production"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Warranty Card - %s' % object.name</field>
+        <field name="paperformat_id" ref="report_custom_layout.warranty_custom_paperformat"/>
+    </record>
+
+</odoo>

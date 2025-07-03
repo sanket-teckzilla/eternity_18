@@ -1,0 +1,44 @@
+<odoo>
+
+    <!--<record id="warranty_lot_validity_view" model="ir.ui.view">-->
+        <!--<field name="name">stock.production.lot.tree.warranty</field>-->
+        <!--<field name="model">stock.production.lot</field>-->
+        <!--<field name="arch" type="xml">-->
+            <!--<list string="Lots/Serial Numbers" multi_edit="1">-->
+                <!--<field name="name"/>-->
+                <!--<field name="ref" optional="show"/>-->
+                <!--<field name="product_id" readonly="1"/>-->
+                <!--<field name="start_date" optional="show"/>-->
+                <!--<field name="end_date" optional="show"/>-->
+                <!--<field name="invoice_number" optional="show"/>-->
+            <!--</list>-->
+        <!--</field>-->
+    <!--</record>-->
+
+    <!--<record id="action_production_lot_form_warranty" model="ir.actions.act_window">-->
+        <!--<field name="name">Lots/Serial Numbers</field>-->
+        <!--<field name="type">ir.actions.act_window</field>-->
+        <!--<field name="res_model">stock.production.lot</field>-->
+        <!--<field name="view_ids"-->
+                   <!--eval="[(5, 0, 0),-->
+                          <!--(0, 0, {'view_mode': 'tree', 'view_id': ref('gts_stock.warranty_lot_validity_view')}),-->
+                          <!--(0, 0, {'view_mode': 'form', 'view_id': ref('stock.view_production_lot_form')})]"/>-->
+        <!--<field name="search_view_id" ref="stock.search_product_lot_filter"/>-->
+        <!--<field name="domain">[('start_date', '!=', False)]</field>-->
+        <!--<field name="help" type="html">-->
+          <!--<p class="o_view_nocontent_smiling_face">-->
+            <!--Add a lot/serial number-->
+          <!--</p><p>-->
+            <!--This is the list of all the production lots you recorded. When-->
+            <!--you select a lot, you can get the traceability of the products contained in lot.-->
+          <!--</p>-->
+        <!--</field>-->
+    <!--</record>-->
+
+    <!--<menuitem id="menu_warranty_lot"-->
+              <!--name="Warranty Lot"-->
+              <!--parent="stock.menu_warehouse_report"-->
+              <!--sequence="101"-->
+              <!--action="action_production_lot_form_warranty"/>-->
+
+</odoo>

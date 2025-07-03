@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tds_dateselector,tds_dateselector,model_tds_dateselector,base.group_user,1,1,1,1
+access_tds_report_wizard,tds_report_wizard,model_tds_report_wizard,base.group_user,1,1,1,1
+access_po_ageing_report,po_ageing_report,model_po_ageing_report,base.group_user,1,1,1,1

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="purchase_order_view_inherit_no_create" model="ir.ui.view">
+            <field name="name">purchase.order.inherit.form.no.create</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="options">{'no_create':True, 'no_edit':True, 'no_open':True}</attribute>
+                </xpath>
+                <xpath expr="//notebook//page[1]//field[@name='order_line']//list//field[@name='product_id']" position="attributes">
+                    <attribute name="options">{'no_create':True, 'no_edit':True, 'no_open':True}</attribute>
+                </xpath>
+                <xpath expr="//notebook//page[1]//field[@name='order_line']//list//field[@name='product_uom']" position="attributes">
+                    <attribute name="options">{'no_create':True, 'no_edit':True, 'no_open':True}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="purchase_order_stock_view_inherit_no_create" model="ir.ui.view">
+            <field name="name">purchase.order.stock.inherit.form.no.create</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase_stock.purchase_order_view_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='incoterm_id']" position="attributes">
+                    <attribute name="options">{'no_create':True, 'no_edit':True, 'no_open':True}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+<!--    <record id="daily_report_form_view" model="ir.ui.view">-->
+<!--        <field name="name">Daily Report</field>-->
+<!--        <field name="model">po.daily.report</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form>-->
+<!--                <group>-->
+<!--                    <field name="to_date"/>-->
+<!--                </group>-->
+<!--                <footer>-->
+<!--                    <button name="print_daily_report" string="Download" class="oe_highlight" type="object"/>-->
+<!--                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>-->
+<!--                </footer>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record model="ir.actions.act_window" id="action_po_daily_report">-->
+<!--        <field name="name">Daily Report</field>-->
+<!--        <field name="res_model">po.daily.report</field>-->
+<!--        <field name="view_mode">form</field>-->
+<!--        <field name="target">new</field>-->
+<!--    </record>-->
+
+<!--    <record id="paperformat_daily_invoice_report" model="report.paperformat">-->
+<!--        <field name="name">daily_invoice_report_format</field>-->
+<!--        <field name="default" eval="True"/>-->
+<!--        <field name="format">A4</field>-->
+<!--        <field name="page_height">0</field>-->
+<!--        <field name="page_width">0</field>-->
+<!--        <field name="orientation">Landscape</field>-->
+<!--        <field name="margin_top">15</field>-->
+<!--        <field name="margin_bottom">15</field>-->
+<!--        <field name="margin_left">7</field>-->
+<!--        <field name="margin_right">7</field>-->
+<!--        <field name="header_line" eval="False"/>-->
+<!--        <field name="header_spacing">30</field>-->
+<!--        <field name="dpi">90</field>-->
+<!--    </record>-->
+
+<!--    <record id="action_download_daily_report" model="ir.actions.report">-->
+<!--        <field name="name">Daily Report</field>-->
+<!--        <field name="model">po.daily.report</field>-->
+<!--        <field name="report_type">qweb-pdf</field>-->
+<!--        <field name="paperformat_id" ref="po_daily_report.paperformat_daily_invoice_report"/>-->
+<!--        <field name="report_name">po_daily_report.daily_report</field>-->
+<!--        <field name="report_file">po_daily_report.daily_report</field>-->
+<!--    </record>-->
+
+<!--    <menuitem id="menu_action_daily_report"-->
+<!--              name="Daily Report"-->
+<!--              parent="account.menu_finance_reports"-->
+<!--              action="action_po_daily_report"-->
+<!--              sequence="24"/>-->
+
+    <data noupdate="1">
+       <record id="daily_company_report" model="ir.cron">
+           <field name="name">Daily Company Valuation Report</field>
+           <field name="model_id" ref="model_po_daily_report"/>
+           <field name="state">code</field>
+           <field name="code">model.send_daily_stock_reports()</field>
+           <field name="user_id" ref="base.user_root"/>
+           <field name='interval_number'>1</field>
+           <field name='interval_type'>days</field>
+<!--           <field name="numbercall">-1</field>-->
+<!--           <field name="doall" eval="False"/>-->
+       </record>
+
+<!--        <record id="company_valuation_report_email_template" model="mail.template">-->
+<!--            <field name="name">Company valuation Report Email Template</field>-->
+<!--            <field name="model_id" ref="po_daily_report.model_po_daily_report"/>-->
+<!--            <field name="auto_delete" eval="True"/>-->
+<!--            <field name="subject">Company Valuation Report</field>-->
+<!--            <field name="body_html">-->
+<!--                <![CDATA[<p>Dear User,-->
+<!--                <br/>-->
+<!--                <br/>Good Day, this is our first e-mail template!<br/>-->
+<!--                </p>Regards,<br/>-->
+<!--                Planet-Odoo ]]>-->
+<!--            </field>-->
+<!--            </record>-->
+        </data>
+
+</odoo>
