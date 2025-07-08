@@ -6,13 +6,12 @@
     'author': 'GeoTechnosoft',
     'license': 'AGPL-3',
     'website': 'http://www.geotechnosoft.com',
-    'category': '',
-    'depends': ['base', 'purchase','l10n_in_purchase','stock','product','report_custom_layout'],
+    'category': 'sales',
+    'depends': ['base', 'purchase','purchase_stock', 'stock','product','report_custom_layout'],
     'data': [
         'report/report_purchase_order_inherit.xml',
         'report/report_purchase_quotation_inherit.xml',
         'views/purchase_view.xml',
-
     ],
     'installable': True,
     'application': True,
